@@ -10,23 +10,34 @@ reprex_shot <- function(code = NULL, filename = NULL, open_file = TRUE,
 
   # get tempfiles
   temp_fs <- dir(tempdir(), full.names = TRUE)
-  # get tempfile times
-  time_fs <- file.info(temp_fs)$ctime
+  reprex_fs <- temp_fs[grepl(x = temp_fs, pattern = "reprex_preview.html")]
 
-  # sort tempfiles
-  temp_sort <- temp_fs[order(desc(time_fs))]
-  # get first element matching the reprex_preview
-  temp_reprex <- temp_sort[grepl(x = temp_sort, pattern = "reprex_preview.html")][1]
+  # check for missing reprex
+  if(identical(character(0), reprex_fs)) stop("No reprex found. Run reprex() on some code.")
+
+  # get tempfile times
+  time_fs <- file.info(reprex_fs)$ctime
+
+  # grab the latest reprex
+  temp_reprex <- reprex_fs[time_fs == max(time_fs)]
+
+  # check for missing reprex
+  if(is.na(temp_reprex)) stop("No reprex found. Run reprex() on some code.")
+
   if(is.null(filename)){
     filename <- basename(temp_reprex)
     filename <- paste0(gsub(x = filename, pattern = "_reprex_preview.html", replacement = ""), ".png")
   }
-  webshot2::webshot(temp_reprex, file = filename)
-  cli::cli_alert_success("Screenshot saved at {.path {filename}}.")
+  webshot2::webshot(temp_reprex, file = filename, zoom = 3)
+  cli::cli_alert_success("Screenshot saved as {.path {filename}}.")
 
   # print number of lines, a basic output so that you can
   # pipe reprex::reprex() directly into reprex_shot()
-  if(!is.null(code)) cli::cli_alert_info("reprex code had {length(code)} lines.")
+  if(!is.null(code)) {
+    cli::cli_alert_info("reprex code had {length(code)} lines")
+  } else {
+    cli::cli_alert_info("Used most recent reprex {.field {max(time_fs)}} at {.path {temp_reprex}}")
+  }
 
   # optionally auto-open new file
   if(open_file) rstudioapi::viewer(filename)
