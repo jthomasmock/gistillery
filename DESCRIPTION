@@ -1,11 +1,11 @@
 Package: gistillery
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Upload Code to Github Gists and Take Code Screenshots via Carbon
 Version: 0.1.0
 Author: Thomas Mock
 Maintainer: Thomas Mock <j.thomasmock@gmail.com>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: Easily upload code to Github Gists via various methods.
+    Quickly take customized and beautiful screenshots of your code from Carbon.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
