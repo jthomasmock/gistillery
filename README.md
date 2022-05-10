@@ -31,7 +31,7 @@ Please note that for Github Authentication which is required to affect your Gist
 
 ### Step 1
 
-We can use `gist_upload()` to take code from a file (via `readLines`), from the a `repre`/clipboard via `clipr::read_clip()`, or from a unsaved file via `rstudioapi`. Note that it also attaches the Gist URL to the bottom of the code snippet, so when you eventually share the code as an image people can still access copy-pastable code! (This is borrowed from `gistfo`, not an original idea)
+We can use `gist_upload()` to take code from a file (via `readLines`), from a `reprex`/clipboard via `clipr::read_clip()`, or from a unsaved file via `rstudioapi`. Note that it also attaches the Gist URL to the bottom of the code snippet, so when you eventually share the code as an image people can still access copy-pastable code! (This is borrowed from `gistfo`, not an original idea)
 
 ``` r
 # Load the functions
