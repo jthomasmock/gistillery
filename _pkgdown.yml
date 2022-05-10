@@ -7,7 +7,7 @@ template:
   bootswatch: litera
   opengraph:
     image:
-      src: man/figures/gistillerylogo.png
+      src: https://raw.githubusercontent.com/jthomasmock/gistillery/main/man/figures/gistillery-logo.png
       alt: The package hex logo, it is pixel art of a swan neck copper distillation pot with a octopus off to one side.
     twitter:
       creator: '@thomas_mock'
