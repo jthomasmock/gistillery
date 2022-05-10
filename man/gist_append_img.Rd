@@ -7,9 +7,9 @@
 gist_append_img(imgur_url, gist_id = NULL)
 }
 \arguments{
-\item{imgur_url}{Existing URL from imgur, typically as created with tomtom::gist_to_carbon}
+\item{imgur_url}{Existing URL from imgur, typically as created with gistillery::gist_to_carbon()}
 
-\item{gist_id}{Unique ID for an existing Github Gist}
+\item{gist_id}{Unique ID for an existing Github Gist - this is where the comment will be added.}
 }
 \value{
 Adds a commented line to bottom of existing Gist code

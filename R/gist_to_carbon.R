@@ -34,20 +34,47 @@ gist_to_carbon <- function(gist_id, file = "code.png", bg = "#4A90E2",
   # into their correct boxes - also note that alpha is on a 0 to 1 scale
   bg_txt <- glue::glue("rgba%28{bcol[1]}%2C{bcol[2]}%2C{bcol[3]}%2C{1}%29")
 
-  # could expand in future to alternative options
-  carbon_query <- glue::glue("bg={bg_txt}&t={theme}&fm={font}&lang={lang}")
-  carbon_url <- glue::glue("https://carbon.now.sh/embed/{gist_id}?{carbon_query}")
-
-  # save to disk
-  webshot2::webshot(
-    url = carbon_url, file = file, zoom = 3,
-    selector = "div.export-container", ...
-  )
-  # upload to imgur
-  if (imgur) {
-    imgur_url <- as.character(knitr::imgur_upload(file))
-    return(imgur_url)
+  drop_shadow <- if (isTRUE(drop_shadow)) {
+    "&ds=true&dsyoff=20px&dsblur=68px"
+  } else if (identical(drop_shadow, FALSE)) {
+    "&ds=false"
+  } else if (length(drop_shadow) > 0) {
+    ds_values <- c(20, 68)
+    for (i in seq_along(drop_shadow)) ds_values[i] <- drop_shadow[i]
+    glue::glue("&ds=true&dsyoff={ds_values[1]}px&dsblur={ds_values[2]}px")
+  } else {
+    "&ds=false"
   }
+
+  width_auto_adjust <- if (isTRUE(width_auto_adjust)) "true" else "false"
+
+  carbon_query <- glue::glue("bg={bg_txt}&t={theme}&fm={font}&lang={lang}{drop_shadow}&width={width}&wa={width_auto_adjust}")
+  carbon_url <- glue::glue("https://carbon.now.sh/embed/{gist_id}?{carbon_query}")
+  cli::cli_inform("{.url {carbon_url}}")
+
+  b <- chromote::ChromoteSession$new(
+    # set the screen size to avoid clipped code
+    width = width * 1.5,
+    height = width * 10
+  )
+  on.exit(b$close())
+
+  # Navigate to carbon url
+  b$Page$navigate(carbon_url)
+  b$Page$loadEventFired()
+  # Enable background transparency in the screenshot
+  b$Emulation$setDefaultBackgroundColorOverride(color = list(r = 0, g = 0, b = 0, a = 0))
+  # Hide the copy button
+  b$Runtime$evaluate("document.querySelector('.copy-button').style.display = 'none'")
+  # Screenshot time!
+  b$screenshot(filename = file, selector = "#export-container", scale = 3)
+
+  if (!imgur) {
+    return(file)
+  }
+
+  imgur_url <- as.character(knitr::imgur_upload(img))
+  list(imgur_url = imgur_url, gist_id = gist_id)
 }
 
 

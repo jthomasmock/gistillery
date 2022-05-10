@@ -14,7 +14,7 @@ gist_upload(content = NULL, gist_name = NULL, ...)
 \item{...}{Further args passed on to \code{\link[crul]{verb-POST}}}
 }
 \value{
-gist id and the gist URL to clipboard
+gist id and the gist URL to clipboard, can be piped directly into gist_to_carbon
 }
 \description{
 Create a gist

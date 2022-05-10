@@ -3,6 +3,7 @@
 export(gist_append_img)
 export(gist_to_carbon)
 export(gist_upload)
+export(reprex_shot)
 import(gistfo)
 import(gistr)
 import(glue)

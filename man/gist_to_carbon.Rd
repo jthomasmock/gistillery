@@ -8,15 +8,15 @@ gist_to_carbon(
   gist_id,
   file = "code.png",
   bg = "#4A90E2",
-  theme = "shades-of-purple",
-  font = "Fira+Code",
+  theme = "night-owl",
+  font = "Hack",
   lang = "auto",
   imgur = TRUE,
   ...
 )
 }
 \arguments{
-\item{gist_id}{the unique id for your existing gist}
+\item{gist_id}{the unique id for your existing gist, can be piped from gist_upload() or passed manually.}
 
 \item{file}{the name of the file for printing, eg code.png}
 
