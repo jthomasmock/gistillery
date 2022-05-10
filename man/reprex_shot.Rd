@@ -2,7 +2,7 @@
 % Please edit documentation in R/reprex_shot.R
 \name{reprex_shot}
 \alias{reprex_shot}
-\title{Execute a `reprex::reprex()` and take a local screenshot of `reprex` output}
+\title{Execute a reprex::reprex() and take a local screenshot of the reprex output}
 \usage{
 reprex_shot(filename = NULL, open_file = TRUE, imgur = FALSE, ...)
 }

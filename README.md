@@ -122,7 +122,13 @@ rtweet::post_tweet(
 )
 ```
 
+### `reprex_shot()`
 
+The last function, `reprex_shot()` is more of a local workflow. Calling this function will execute `reprex::reprex()` and then save the HTML to an image on disk. This is fine if you want to quickly get a local screenshot but it will not have the gist url attached to the screenshot.
+
+``` r
+reprex_shot(filename = "my-local-reprex.png")
+```
 
 ### Altogether
 
@@ -131,5 +137,5 @@ If you wanted, you could used a pipe based workflow to get a seamless `reprex` -
 ``` r
 reprex::reprex() |> 
   gistillery::gist_upload(gist_name = "new-test-reprex.R") |> 
-  gist_to_carbon(file = "new-test-reprex.png") 
+  gistillery::gist_to_carbon(file = "new-test-reprex.png") 
 ```

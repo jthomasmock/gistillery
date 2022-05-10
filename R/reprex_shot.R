@@ -1,4 +1,4 @@
-#' Execute a `reprex::reprex()` and take a local screenshot of `reprex` output
+#' Execute a reprex::reprex() and take a local screenshot of the reprex output
 #' @description `reprex_shot()` will first take a `reprex` and then capture the
 #' HTML output into an on-disk image, optionally uploading the image to Imgur.
 #' @param filename a filename, ending in .png
