@@ -61,8 +61,17 @@
 <div class="page-header"><h1 id="gistillery">gistillery<a class="anchor" aria-label="anchor" href="#gistillery"></a>
 </h1></div>
 <!-- badges: start --><!-- badges: end --><p>The goal of <code>gistillery</code> is to make it outrageously simple to take local code, send it to a <a href="https://gist.github.com/" class="external-link">Github gist</a>, get a beautiful image from <a href="https://carbon.now.sh/" class="external-link">Carbon.now.sh</a>, and make it ready to share!</p>
-<p>Other packages that operate in the same space: - <code>gistr</code> from ROpenSci - I use this under the hood, it provides a general interface to Gists - <a href="https://github.com/MilesMcBain/gistfo" class="external-link"><code>gistfo</code></a> from Miles McBain/Garrick Aden-Buie, this is a “Get It Somewhere The F*** Online” package. I also use parts of this under the hood. - <a href="https://github.com/yonicd/carbonate" class="external-link"><code>carbonate</code></a> from Jonathan Sidi. A robust approach to a similar problem. This package uses R6 classes and RSelenium.</p>
-<p>Rather than using <code>RSelenium</code>, <code>gistillery</code> uses <code>webshot2</code> to take a screenshot of the code.</p>
+<p>Other packages that operate in the same space:</p>
+<ul>
+<li>
+<a href="https://github.com/ropensci/gistr" class="external-link"><code>gistr</code></a> from ROpenSci - I use this under the hood, it provides a powerful and general interface to Gists<br>
+</li>
+<li>
+<a href="https://github.com/MilesMcBain/gistfo" class="external-link"><code>gistfo</code></a> from Miles McBain/Garrick Aden-Buie, this is a usefully opinionated “Get It Somewhere The F*** Online” package. I also use parts of this under the hood.<br>
+</li>
+<li>
+<a href="https://github.com/yonicd/carbonate" class="external-link"><code>carbonate</code></a> from Jonathan Sidi. A robust approach to a similar problem. <code>carbonate</code> uses R6 classes and RSelenium. Rather than using <code>RSelenium</code>, <code>gistillery</code> uses <code>webshot2</code> to take a screenshot of the code with <code>chromote</code>.</li>
+</ul>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -74,13 +83,14 @@
 <div class="section level2">
 <h2 id="core-workflow">Core Workflow<a class="anchor" aria-label="anchor" href="#core-workflow"></a>
 </h2>
-<p>There are three core functions, providing three steps in the process.</p>
+<p>There are three core functions, providing three steps in the process. Take code and upload to a Gist, take a screenshot of it, and then add a image url to the Gist. Importantly, steps are not <em>required</em> so you can take existing Gists and use components of these functions rather than having to stick to the end-to-end workflow.</p>
 <div class="section level3">
 <h3 id="step-1">Step 1<a class="anchor" aria-label="anchor" href="#step-1"></a>
 </h3>
 <p>We can use <code><a href="reference/gist_upload.html">gist_upload()</a></code> to take code from a file (via <code>readLines</code>), from the a <code>repre</code>/clipboard via <code><a href="http://matthewlincoln.net/clipr/reference/read_clip.html" class="external-link">clipr::read_clip()</a></code>, or from a unsaved file via <code>rstudioapi</code>. Note that it also attaches the Gist URL to the bottom of the code snippet, so when you eventually share the code as an image people can still access copy-pastable code! (This is borrowed from <code>gistfo</code>, not an original idea)</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jthomasmock/gistillery" class="external-link">gistillery</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="co"># Load the functions</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jthomasmock/gistillery" class="external-link">gistillery</a></span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># this will use rstudioapi to take ALL the code from the currently</span>
 <span class="co"># highlighted file inside RStudio</span>
@@ -111,7 +121,7 @@
   file <span class="op">=</span> <span class="st">"my-screenshot.png"</span>
   <span class="op">)</span></code></pre></div>
 <div class="figure">
-<img src="https://i.imgur.com/UEkGyx7.png" alt=""><p class="caption">A screenshot of code, with the full code available at: <a href="https://gist.github.com/jthomasmock/17adcd1a401bec0e41cbd671048ff0b4" class="external-link uri">https://gist.github.com/jthomasmock/17adcd1a401bec0e41cbd671048ff0b4</a></p>
+<img src="https://i.imgur.com/CwhrqKy.png" alt=""><p class="caption">A screenshot of code, with the full code available at: <a href="https://gist.github.com/jthomasmock/17adcd1a401bec0e41cbd671048ff0b4" class="external-link uri">https://gist.github.com/jthomasmock/17adcd1a401bec0e41cbd671048ff0b4</a></p>
 </div>
 <p>If you want to go further with customization, you can change the background color with <code>bg</code>, the code theme with <code>theme</code>, the monospace font with <code>font</code>, the programming language with <code>lang</code> and optionally turn on/off the “upload to Imgur” feature. The <code>imgur=TRUE</code> option will give you an immediate URL so that you can embed the code elsewhere without having to actually upload the full image again.</p>
 </div>
@@ -131,19 +141,29 @@
 <p>Now for the next step, you may want to post it to Twitter or somewhere else. My ask is that you use alt-text and link out to Github so that you can both assist screen-reader users and folks who just want to copy-paste your code!</p>
 <p>As of 2022-05-09, you can use the GitHub version of <code>rtweet::post_tweet()</code> to post tweets, images, and alt-text.</p>
 <p>IE:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>rtweet<span class="sc">::</span><span class="fu">post_tweet</span>(</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">status =</span> <span class="st">"My cool code screenshot"</span>,</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">media =</span> <span class="st">"my-screenshot.png"</span>,</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">media_alt_text =</span> <span class="st">"This is a screenshot of some R code. The code is available at https://gist.github.com/jthomasmock/17adcd1a401bec0e41cbd671048ff0b4. I have also copy-pasted the code below:</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="st">  # core workflow</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="st">  gist_to_carbon(</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="st">    gist_id = "</span>17adcd1a401bec0e41cbd671048ff0b4<span class="st">", </span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="st">    file = "</span>my<span class="sc">-</span>screenshot.png<span class="st">"</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="st">  )</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="st">  "</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">rtweet</span><span class="fu">::</span><span class="fu">post_tweet</span><span class="op">(</span>
+  status <span class="op">=</span> <span class="st">"My cool code screenshot"</span>,
+  media <span class="op">=</span> <span class="st">"my-screenshot.png"</span>,
+  media_alt_text <span class="op">=</span> <span class="st">"This is a screenshot of some R code. The code is available at https://gist.github.com/jthomasmock/17adcd1a401bec0e41cbd671048ff0b4. I have also copy-pasted the code below:
+  
+  # core workflow
+  gist_to_carbon(
+    gist_id = '17adcd1a401bec0e41cbd671048ff0b4', 
+    file = 'my-screenshot.png'
+  )
+  "</span>
+<span class="op">)</span></code></pre></div>
 <p>Alternatively, you can use the Imgur link to include your code to places where it’s inconvenient to use local image files or when you can’t format code properly.</p>
+</div>
+<div class="section level3">
+<h3 id="altogether">Altogether<a class="anchor" aria-label="anchor" href="#altogether"></a>
+</h3>
+<p>If you wanted, you could used a pipe based workflow to get a seamless <code>reprex</code> -&gt; upload to Gist -&gt; screenshot from Carbon.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">reprex</span><span class="fu">::</span><span class="fu">reprex</span><span class="op">(</span><span class="op">)</span> |&gt; 
+  <span class="fu"><a href="reference/gist_upload.html">gist_upload</a></span><span class="op">(</span><span class="st">"my-code.R"</span><span class="op">)</span> |&gt; 
+  <span class="fu"><a href="reference/gist_to_carbon.html">gist_to_carbon</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
 </div>
