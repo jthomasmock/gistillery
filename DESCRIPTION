@@ -15,3 +15,5 @@ Imports:
     gistr,
     glue,
     knitr
+URL: https://github.com/jthomasmock/gistillery
+BugReports: https://github.com/jthomasmock/gistillery/issues
