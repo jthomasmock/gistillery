@@ -15,12 +15,12 @@
 #' @export
 
 gist_to_carbon <- function(gist_id, file = "code.png", bg = "#4A90E2",
-                           theme = "shades-of-purple", font = "Fira+Code",
+                           theme = "night-owl", font = "Hack",
                            lang = "auto", imgur = TRUE, ...) {
   fonts <- c("IBM+Plex+Mono", "Hack", "Fira+Code", "Source+Code+Pro")
   langs <- c("python", "r", "yaml", "markdown", "text", "auto")
   themes <- c(
-    "cobalt", "nord", "seti", "night-owl", "monokai",
+    "cobalt", "nord", "seti", "night-owl", "monokai", "hopscotch", "twilight",
     "material", "vscode", "verminal", "synthwave-84", "shades-of-purple"
   )
 

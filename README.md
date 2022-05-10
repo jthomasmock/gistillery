@@ -6,12 +6,11 @@
 
 The goal of `gistillery` is to make it outrageously simple to take local code, send it to a [Github gist](https://gist.github.com/), get a beautiful image from [Carbon.now.sh](https://carbon.now.sh/), and make it ready to share!
 
-Other packages that operate in the same space:
-- `gistr` from ROpenSci - I use this under the hood, it provides a general interface to Gists
-- [`gistfo`](https://github.com/MilesMcBain/gistfo) from Miles McBain/Garrick Aden-Buie, this is a "Get It Somewhere The F*** Online" package. I also use parts of this under the hood.
-- [`carbonate`](https://github.com/yonicd/carbonate) from Jonathan Sidi. A robust approach to a similar problem. This package uses R6 classes and RSelenium.
+Other packages that operate in the same space:  
 
-Rather than using `RSelenium`, `gistillery` uses `webshot2` to take a screenshot of the code.
+- [`gistr`](https://github.com/ropensci/gistr) from ROpenSci - I use this under the hood, it provides a powerful and general interface to Gists  
+- [`gistfo`](https://github.com/MilesMcBain/gistfo) from Miles McBain/Garrick Aden-Buie, this is a usefully opinionated "Get It Somewhere The F*** Online" package. I also use parts of this under the hood.  
+- [`carbonate`](https://github.com/yonicd/carbonate) from Jonathan Sidi. A robust approach to a similar problem. `carbonate` uses R6 classes and RSelenium. Rather than using `RSelenium`, `gistillery` uses `webshot2` to take a screenshot of the code with `chromote`.  
 
 ## Installation
 
@@ -24,13 +23,14 @@ remotes::install_github("jthomasmock/gistillery")
 
 ## Core Workflow
 
-There are three core functions, providing three steps in the process.
+There are three core functions, providing three steps in the process. Take code and upload to a Gist, take a screenshot of it, and then add a image url to the Gist. Importantly, steps are not _required_ so you can take existing Gists and use components of these functions rather than having to stick to the end-to-end workflow.
 
 ### Step 1
 
 We can use `gist_upload()` to take code from a file (via `readLines`), from the a `repre`/clipboard via `clipr::read_clip()`, or from a unsaved file via `rstudioapi`. Note that it also attaches the Gist URL to the bottom of the code snippet, so when you eventually share the code as an image people can still access copy-pastable code! (This is borrowed from `gistfo`, not an original idea)
 
 ``` r
+# Load the functions
 library(gistillery)
 ```
 
@@ -99,11 +99,21 @@ rtweet::post_tweet(
   
   # core workflow
   gist_to_carbon(
-    gist_id = "17adcd1a401bec0e41cbd671048ff0b4", 
-    file = "my-screenshot.png"
+    gist_id = '17adcd1a401bec0e41cbd671048ff0b4', 
+    file = 'my-screenshot.png'
   )
   "
 )
 ```
 
 Alternatively, you can use the Imgur link to include your code to places where it's inconvenient to use local image files or when you can't format code properly.
+
+### Altogether
+
+If you wanted, you could used a pipe based workflow to get a seamless `reprex` -> upload to Gist -> screenshot from Carbon.
+
+``` r
+reprex::reprex() |> 
+  gist_upload("my-code.R") |> 
+  gist_to_carbon()
+```
