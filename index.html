@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="index.html">gistillery</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -89,7 +89,7 @@
 <div class="section level3">
 <h3 id="step-1">Step 1<a class="anchor" aria-label="anchor" href="#step-1"></a>
 </h3>
-<p>We can use <code><a href="reference/gist_upload.html">gist_upload()</a></code> to take code from a file (via <code>readLines</code>), from the a <code>repre</code>/clipboard via <code><a href="http://matthewlincoln.net/clipr/reference/read_clip.html" class="external-link">clipr::read_clip()</a></code>, or from a unsaved file via <code>rstudioapi</code>. Note that it also attaches the Gist URL to the bottom of the code snippet, so when you eventually share the code as an image people can still access copy-pastable code! (This is borrowed from <code>gistfo</code>, not an original idea)</p>
+<p>We can use <code><a href="reference/gist_upload.html">gist_upload()</a></code> to take code from a file (via <code>readLines</code>), from a <code>reprex</code>/clipboard via <code><a href="http://matthewlincoln.net/clipr/reference/read_clip.html" class="external-link">clipr::read_clip()</a></code>, or from a unsaved file via <code>rstudioapi</code>. Note that it also attaches the Gist URL to the bottom of the code snippet, so when you eventually share the code as an image people can still access copy-pastable code! (This is borrowed from <code>gistfo</code>, not an original idea)</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Load the functions</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/jthomasmock/gistillery" class="external-link">gistillery</a></span><span class="op">)</span></code></pre></div>
@@ -115,7 +115,7 @@
 <div class="section level3">
 <h3 id="step-2">Step 2<a class="anchor" aria-label="anchor" href="#step-2"></a>
 </h3>
-<p>Regardless of <em>how</em> you got the code to a Gist, you can then move on to step 2 and get the code over to <a href="https://carbon.now.sh" class="external-link">carbon.now.sh</a> for beautiful screenshots. It takes the unique id for a Gist and then returns a lovely screenshot.</p>
+<p>Regardless of <em>how</em> you got the code to a Gist, you can then move on to step 2 and get the code over to <a href="https://carbon.now.sh" class="external-link">carbon.now.sh</a> for beautiful screenshots. It takes the unique id for a Gist and then returns a lovely screenshot. Note that if you want to share that screenshot it also appends the gist URL to the bottom of the image. You should also include alt-text linking out to the Gist!</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># core workflow</span>
 <span class="fu"><a href="reference/gist_to_carbon.html">gist_to_carbon</a></span><span class="op">(</span>
@@ -126,16 +126,22 @@
 <img src="https://i.imgur.com/CwhrqKy.png" alt=""><p class="caption">A screenshot of code, with the full code available at: <a href="https://gist.github.com/jthomasmock/17adcd1a401bec0e41cbd671048ff0b4" class="external-link uri">https://gist.github.com/jthomasmock/17adcd1a401bec0e41cbd671048ff0b4</a></p>
 </div>
 <p>If you want to go further with customization, you can change the background color with <code>bg</code>, the code theme with <code>theme</code>, the monospace font with <code>font</code>, the programming language with <code>lang</code> and optionally turn on/off the “upload to Imgur” feature. The <code>imgur=TRUE</code> option will give you an immediate URL so that you can embed the code elsewhere without having to actually upload the full image again.</p>
+<p>You can also set some of these parameters via <code>options</code> like so: <code>options(gistillery.bg = "#d3d3d3", gistillery.theme = "cobalt", gistillery.font = "Fira+Code")</code></p>
 </div>
 <div class="section level3">
 <h3 id="step-3">Step 3<a class="anchor" aria-label="anchor" href="#step-3"></a>
 </h3>
-<p>Now that you have a local image and the Imgur link, you can use the third function. <code>add_gist_img</code> will take an existing gist and append the Imgur link to the code itself, that way you can programmatically add screenshots back to your specific Gists.</p>
+<p>Now that you have a local image and the Imgur link, you can use the third function. <code>add_gist_img</code> will take an existing gist and append the Imgur link to the code itself, that way you can programmatically add the screenshot URL back to your specific Gists.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/gist_append_img.html">gist_append_img</a></span><span class="op">(</span>
   imgur_url <span class="op">=</span> <span class="st">"https://i.imgur.com/UEkGyx7.png"</span>, 
   gist_id <span class="op">=</span> <span class="st">"17adcd1a401bec0e41cbd671048ff0b4"</span>
   <span class="op">)</span></code></pre></div>
+<p>Alternatively, you can use the Imgur link to include your code in places where it’s inconvenient to use local image files or when you can’t format code properly.</p>
+<p>You can also use <code><a href="reference/gist_comment.html">gist_comment()</a></code> to upload a markdown-styled image into the comments of an existing Gist, like below:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/gist_comment.html">gist_comment</a></span><span class="op">(</span><span class="va">gist_id</span>, <span class="st">"![](some-valid-imgur-url.png)"</span><span class="op">)</span></code></pre></div>
+<p>That will add a comment to the existing gist, adding a markdown image.</p>
 </div>
 <div class="section level3">
 <h3 id="step-n--1">Step N + 1<a class="anchor" aria-label="anchor" href="#step-n--1"></a>
@@ -143,7 +149,7 @@
 <p>Now for the next step, you may want to post it to Twitter or somewhere else. My ask is that you use alt-text and link out to Github so that you can both assist screen-reader users and folks who just want to copy-paste your code!</p>
 <p>As of 2022-05-09, you can use the GitHub version of <code>rtweet::post_tweet()</code> to post tweets, images, and alt-text.</p>
 <p>IE:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">rtweet</span><span class="fu">::</span><span class="fu">post_tweet</span><span class="op">(</span>
   status <span class="op">=</span> <span class="st">"My cool code screenshot"</span>,
   media <span class="op">=</span> <span class="st">"my-screenshot.png"</span>,
@@ -156,19 +162,23 @@
   )
   "</span>
 <span class="op">)</span></code></pre></div>
-<p>Alternatively, you can use the Imgur link to include your code to places where it’s inconvenient to use local image files or when you can’t format code properly.</p>
-<p>You can also use <code><a href="reference/gist_comment.html">gist_comment()</a></code> to upload a markdown-styled image into the comments of an existing Gist, like below:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/gist_comment.html">gist_comment</a></span><span class="op">(</span><span class="va">gist_id</span>, <span class="st">"![](imgur-url.png)"</span><span class="op">)</span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="reprex_shot">
+<code>reprex_shot()</code><a class="anchor" aria-label="anchor" href="#reprex_shot"></a>
+</h3>
+<p>The last function, <code><a href="reference/reprex_shot.html">reprex_shot()</a></code> is more of a local workflow. Calling this function will execute <code><a href="https://reprex.tidyverse.org/reference/reprex.html" class="external-link">reprex::reprex()</a></code> and then save the HTML to an image on disk. This is fine if you want to quickly get a local screenshot but it will not have the gist url attached to the screenshot.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="reference/reprex_shot.html">reprex_shot</a></span><span class="op">(</span>filename <span class="op">=</span> <span class="st">"my-local-reprex.png"</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="altogether">Altogether<a class="anchor" aria-label="anchor" href="#altogether"></a>
 </h3>
 <p>If you wanted, you could used a pipe based workflow to get a seamless <code>reprex</code> -&gt; upload to Gist -&gt; screenshot from Carbon.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">reprex</span><span class="fu">::</span><span class="fu"><a href="https://reprex.tidyverse.org/reference/reprex.html" class="external-link">reprex</a></span><span class="op">(</span><span class="op">)</span> |&gt; 
   <span class="fu">gistillery</span><span class="fu">::</span><span class="fu"><a href="reference/gist_upload.html">gist_upload</a></span><span class="op">(</span>gist_name <span class="op">=</span> <span class="st">"new-test-reprex.R"</span><span class="op">)</span> |&gt; 
-  <span class="fu"><a href="reference/gist_to_carbon.html">gist_to_carbon</a></span><span class="op">(</span>file <span class="op">=</span> <span class="st">"new-test-reprex.png"</span><span class="op">)</span> </code></pre></div>
+  <span class="fu">gistillery</span><span class="fu">::</span><span class="fu"><a href="reference/gist_to_carbon.html">gist_to_carbon</a></span><span class="op">(</span>file <span class="op">=</span> <span class="st">"new-test-reprex.png"</span><span class="op">)</span> </code></pre></div>
 </div>
 </div>
 </div>
