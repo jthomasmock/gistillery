@@ -25,6 +25,10 @@ remotes::install_github("jthomasmock/gistillery")
 
 There are three core functions, providing three steps in the process. Take code and upload to a Gist, take a screenshot of it, and then add a image url to the Gist. Importantly, steps are not _required_ so you can take existing Gists and use components of these functions rather than having to stick to the end-to-end workflow.
 
+Please note that for Github Authentication which is required to affect your Gists, you'll need to reference the [`gistr` docs](https://docs.ropensci.org/gistr/reference/gist_auth.html)
+
+> Generate a personal access token with the gist scope selected, and set it as the GITHUB_PAT environment variable per session using Sys.setenv or across sessions by adding it to your .Renviron file or similar. See https://help.github.com/articles/creating-an-access-token-for-command-line-use for help
+
 ### Step 1
 
 We can use `gist_upload()` to take code from a file (via `readLines`), from the a `repre`/clipboard via `clipr::read_clip()`, or from a unsaved file via `rstudioapi`. Note that it also attaches the Gist URL to the bottom of the code snippet, so when you eventually share the code as an image people can still access copy-pastable code! (This is borrowed from `gistfo`, not an original idea)
@@ -107,6 +111,12 @@ rtweet::post_tweet(
 ```
 
 Alternatively, you can use the Imgur link to include your code to places where it's inconvenient to use local image files or when you can't format code properly.
+
+You can also use `gist_comment()` to upload a markdown-styled image into the comments of an existing Gist, like below:
+
+``` r
+gist_comment(gist_id, "![](imgur-url.png)")
+```
 
 ### Altogether
 

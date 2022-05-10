@@ -1,7 +1,7 @@
 Package: gistillery
 Type: Package
 Title: Upload Code to Github Gists and Take Code Screenshots via Carbon
-Version: 0.1.1
+Version: 0.1.2
 Author: Thomas Mock
 Maintainer: Thomas Mock <j.thomasmock@gmail.com>
 Description: Easily upload code to Github Gists from local files, the clipboard, or even a reprex.
@@ -17,7 +17,8 @@ Imports:
     knitr (>= 1.34),
     rstudioapi (>= 0.13),
     webshot2 (>= 0.0.0.9000),
-    chromote (>= 0.0.0.9001)
+    chromote (>= 0.0.0.9001),
+    reprex (>= 2.0.1)
 Suggests: 
     clipr
 URL: https://github.com/jthomasmock/gistillery,

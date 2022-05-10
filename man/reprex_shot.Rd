@@ -2,22 +2,102 @@
 % Please edit documentation in R/reprex_shot.R
 \name{reprex_shot}
 \alias{reprex_shot}
-\title{Take a local screenshot of reprex output}
+\title{Execute a `reprex::reprex()` and take a local screenshot of `reprex` output}
 \usage{
-reprex_shot(code = NULL, filename = NULL, open_file = TRUE, imgur = FALSE)
+reprex_shot(filename = NULL, open_file = TRUE, imgur = FALSE, ...)
 }
 \arguments{
-\item{code}{Optional code from a reprex, mainly here so that you can pipe reprex directly into this function.}
-
 \item{filename}{a filename, ending in .png}
 
 \item{open_file}{A logical, should the file be opened once saved}
 
 \item{imgur}{A logical, should the image be uploaded to imgur also}
+
+\item{...}{
+  Arguments passed on to \code{\link[reprex:reprex]{reprex::reprex}}
+  \describe{
+    \item{\code{x}}{An expression. If not given, \code{reprex()} looks for code in
+\code{input}. If \code{input} is not provided, \code{reprex()} looks on the clipboard.
+
+When the clipboard is structurally unavailable, e.g., on RStudio Server or
+RStudio Cloud, \code{reprex()} consults the current selection instead of the
+clipboard.}
+    \item{\code{input}}{Character. If has length one and lacks a terminating newline,
+interpreted as the path to a file containing reprex code. Otherwise,
+assumed to hold reprex code as character vector. When \code{input} specifies a
+filepath, it also determines the reprex working directory and the location
+of all resulting files.}
+    \item{\code{wd}}{An optional filepath that is consulted when \code{input} is not a
+filepath. (By default, all work is done, quietly, in a subdirectory of the
+session temp directory.)
+
+The most common use of \code{wd} is to set \code{wd = "."}, which means "reprex right
+HERE in the current working directory". Do this if you really must
+demonstrate something with local files.}
+    \item{\code{venue}}{Character. Must be one of the following (case insensitive):
+\itemize{
+\item "gh" for \href{https://github.github.com/gfm/}{GitHub-Flavored Markdown}, the
+default
+\item "r" for a runnable R script, with commented output interleaved. Also useful
+for \href{https://slack.com/intl/en-ca/slack-tips/share-code-snippets}{Slack code snippets};
+select "R" from the "Type" drop-down menu to enjoy nice syntax
+highlighting.
+\item "rtf" for
+\href{https://en.wikipedia.org/wiki/Rich_Text_Format}{Rich Text Format}
+(not supported for un-reprexing)
+\item "html" for an HTML fragment suitable for inclusion in a larger HTML
+document (not supported for un-reprexing)
+\item "slack" for pasting into a Slack message. Works best if you opt out of
+Slack's WYSIWYG interface and, instead, go to \strong{Preferences > Advanced}
+and select "Format messages with markup".
+\item "so" for
+\href{https://stackoverflow.com/editing-help#syntax-highlighting}{Stack Overflow Markdown}.
+Note: this is just an alias for "gh", since Stack Overflow started to
+support CommonMark-style fenced code blocks in January 2019.
+\item "ds" for Discourse, e.g.,
+\href{https://community.rstudio.com}{community.rstudio.com}. Note: this is
+currently just an alias for "gh".
+}}
+    \item{\code{render}}{Logical. Whether to call \code{\link[rmarkdown:render]{rmarkdown::render()}} on the templated
+reprex, i.e. whether to actually run the code. Defaults to \code{TRUE}. Exists
+primarily for the sake of internal testing.}
+    \item{\code{advertise}}{Logical. Whether to include a footer that describes when and
+how the reprex was created. If unspecified, the option \code{reprex.advertise}
+is consulted and, if that is not defined, default is \code{TRUE} for venues
+\code{"gh"}, \code{"html"}, \code{"so"}, \code{"ds"} and \code{FALSE} for \code{"r"}, \code{"rtf"}, \code{"slack"}.}
+    \item{\code{session_info}}{Logical. Whether to include
+\code{\link[sessioninfo:session_info]{sessioninfo::session_info()}}, if available, or \code{\link[=sessionInfo]{sessionInfo()}} at the end
+of the reprex. When \code{venue} is "gh", the session info is wrapped in a
+collapsible details tag. Read more about \code{\link[reprex:reprex_options]{opt()}}.}
+    \item{\code{style}}{Logical. Whether to set the knitr chunk option \code{tidy = "styler"}, which re-styles code with the \href{https://styler.r-lib.org}{styler package}. Read more about \code{\link[reprex:reprex_options]{opt()}}.}
+    \item{\code{comment}}{Character. Prefix with which to comment out output, defaults
+to \code{"#>"}. Read more about \code{\link[reprex:reprex_options]{opt()}}.}
+    \item{\code{tidyverse_quiet}}{Logical. Sets the options \code{tidyverse.quiet} and
+\code{tidymodels.quiet}, which suppress (\code{TRUE}, the default) or include
+(\code{FALSE}) the startup messages for the tidyverse and tidymodels packages.
+Read more about \code{\link[reprex:reprex_options]{opt()}}.}
+    \item{\code{std_out_err}}{Logical. Whether to append a section for output sent to
+stdout and stderr by the reprex rendering process. This can be necessary to
+reveal output if the reprex spawns child processes or \code{system()} calls.
+Note this cannot be properly interleaved with output from the main R
+process, nor is there any guarantee that the lines from standard output and
+standard error are in correct chronological order. See \code{\link[callr:r]{callr::r()}} for
+more. Read more about \code{\link[reprex:reprex_options]{opt()}}.}
+    \item{\code{html_preview}}{Logical. Whether to show rendered output in a viewer
+(RStudio or browser). Always \code{FALSE} in a noninteractive session. Read more
+about \code{\link[reprex:reprex_options]{opt()}}.}
+    \item{\code{outfile}}{\ifelse{{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}} in favor of \code{wd} or
+providing a filepath to \code{input}. To reprex in current working directory,
+use \code{wd = "."} now, instead of \code{outfile = NA}.}
+    \item{\code{show}}{\ifelse{{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}} in favor of \code{html_preview},
+for greater consistency with other R Markdown output formats.}
+    \item{\code{si}}{\ifelse{{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}} in favor of \code{session_info}.}
+  }}
 }
 \value{
 a screenshot of the reprex on disk
 }
 \description{
-Take a local screenshot of reprex output
+`reprex_shot()` will first take a `reprex` and then capture the
+HTML output into an on-disk image, optionally uploading the image to Imgur.
 }

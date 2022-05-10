@@ -14,8 +14,7 @@ gist_to_carbon(
   imgur = TRUE,
   drop_shadow = TRUE,
   width = 680,
-  width_auto_adjust = TRUE,
-  ...
+  width_auto_adjust = TRUE
 )
 }
 \arguments{
@@ -38,50 +37,6 @@ gist_to_carbon(
 \item{width}{a number, indicating the width in pixels for screenshot}
 
 \item{width_auto_adjust}{Logical indicating whether to auto adjust the width for better code-printing}
-
-\item{...}{
-  Arguments passed on to \code{\link[webshot2:webshot]{webshot2::webshot}}
-  \describe{
-    \item{\code{url}}{A vector of URLs to visit. If multiple URLs are provided, it will
-load and take screenshots of those web pages in parallel.}
-    \item{\code{vwidth}}{Viewport width. This is the width of the browser "window".}
-    \item{\code{vheight}}{Viewport height This is the height of the browser "window".}
-    \item{\code{selector}}{One or more CSS selectors specifying a DOM element to set the
-clipping rectangle to. The screenshot will contain these DOM elements. For
-a given selector, if it has more than one match, all matching elements will
-be used. This option is not compatible with \code{cliprect}. When taking
-screenshots of multiple URLs, this parameter can also be a list with same
-length as \code{url} with each element of the list containing a vector of
-CSS selectors to use for the corresponding URL.}
-    \item{\code{cliprect}}{Clipping rectangle. If \code{cliprect} and \code{selector}
-are both unspecified, the clipping rectangle will contain the entire page.
-This can be the string \code{"viewport"}, in which case the clipping
-rectangle matches the viewport size, or it can be a four-element numeric
-vector specifying the top, left, width, and height. When taking screenshots
-of multiple URLs, this parameter can also be a list with same length as
-\code{url} with each element of the list being "viewport" or a
-four-elements numeric vector. This option is not compatible with
-\code{selector}.}
-    \item{\code{expand}}{A numeric vector specifying how many pixels to expand the
-clipping rectangle by. If one number, the rectangle will be expanded by
-that many pixels on all sides. If four numbers, they specify the top,
-right, bottom, and left, in that order. When taking screenshots of multiple
-URLs, this parameter can also be a list with same length as \code{url} with
-each element of the list containing a single number or four numbers to use
-for the corresponding URL.}
-    \item{\code{delay}}{Time to wait before taking screenshot, in seconds. Sometimes a
-longer delay is needed for all assets to display properly.}
-    \item{\code{zoom}}{A number specifying the zoom factor. A zoom factor of 2 will
-result in twice as many pixels vertically and horizontally. Note that using
-2 is not exactly the same as taking a screenshot on a HiDPI (Retina)
-device: it is like increasing the zoom to 200% in a desktop browser and
-doubling the height and width of the browser window. This differs from
-using a HiDPI device because some web pages load different,
-higher-resolution images when they know they will be displayed on a HiDPI
-device (but using zoom will not report that there is a HiDPI device).}
-    \item{\code{useragent}}{The User-Agent header used to request the URL.}
-    \item{\code{max_concurrent}}{(Currently not implemented)}
-  }}
 }
 \value{
 Saves an image to disk and optionally returns the uploaded imgur URL

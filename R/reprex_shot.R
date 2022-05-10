@@ -1,12 +1,20 @@
-#' Take a local screenshot of reprex output
-#' @param code Optional code from a reprex, mainly here so that you can pipe reprex directly into this function.
+#' Execute a `reprex::reprex()` and take a local screenshot of `reprex` output
+#' @description `reprex_shot()` will first take a `reprex` and then capture the
+#' HTML output into an on-disk image, optionally uploading the image to Imgur.
 #' @param filename a filename, ending in .png
 #' @param open_file A logical, should the file be opened once saved
 #' @param imgur A logical, should the image be uploaded to imgur also
+#' @inheritDotParams reprex::reprex
 #' @return a screenshot of the reprex on disk
+#' @importFrom reprex reprex
+#' @import cli
+#' @importFrom webshot2 webshot
+#' @importFrom knitr imgur_upload
 #' @export
-reprex_shot <- function(code = NULL, filename = NULL, open_file = TRUE,
-                        imgur = FALSE) {
+reprex_shot <- function(filename = NULL, open_file = TRUE,
+                        imgur = FALSE, ...) {
+
+  reprex::reprex(...)
 
   # get tempfiles
   temp_fs <- dir(tempdir(), full.names = TRUE)
