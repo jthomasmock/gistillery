@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">gistillery</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,9 +51,9 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">gist_to_carbon</span><span class="op">(</span>
   <span class="va">gist_id</span>,
   file <span class="op">=</span> <span class="st">"code.png"</span>,
-  bg <span class="op">=</span> <span class="st">"#4A90E2"</span>,
-  theme <span class="op">=</span> <span class="st">"night-owl"</span>,
-  font <span class="op">=</span> <span class="st">"Hack"</span>,
+  bg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"gistillery.bg"</span>, default <span class="op">=</span> <span class="st">"#4A90E2"</span><span class="op">)</span>,
+  theme <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"gistillery.theme"</span>, default <span class="op">=</span> <span class="st">"night-owl"</span><span class="op">)</span>,
+  font <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"gistillery.font"</span>, default <span class="op">=</span> <span class="st">"Hack"</span><span class="op">)</span>,
   lang <span class="op">=</span> <span class="st">"auto"</span>,
   imgur <span class="op">=</span> <span class="cn">TRUE</span>,
   drop_shadow <span class="op">=</span> <span class="cn">TRUE</span>,
