@@ -1,4 +1,4 @@
-# gistillery
+# gistillery <a href="https://jthomasmock.github.io/gistillery"><img src="man/figures/logo.png" align="right" height="135" /></a>
 
 <!-- badges: start -->
 

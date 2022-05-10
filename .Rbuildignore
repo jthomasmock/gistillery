@@ -5,3 +5,4 @@
 ^docs$
 ^pkgdown$
 ^\.github$
+^_build_logo.R
