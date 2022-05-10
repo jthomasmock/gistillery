@@ -1,16 +1,16 @@
-
 # gistillery
 
 <!-- badges: start -->
+
 <!-- badges: end -->
 
 The goal of `gistillery` is to make it outrageously simple to take local code, send it to a [Github gist](https://gist.github.com/), get a beautiful image from [Carbon.now.sh](https://carbon.now.sh/), and make it ready to share!
 
-Other packages that operate in the same space:  
+Other packages that operate in the same space:
 
-- [`gistr`](https://github.com/ropensci/gistr) from ROpenSci - I use this under the hood, it provides a powerful and general interface to Gists  
-- [`gistfo`](https://github.com/MilesMcBain/gistfo) from Miles McBain/Garrick Aden-Buie, this is a usefully opinionated "Get It Somewhere The F*** Online" package. I also use parts of this under the hood.  
-- [`carbonate`](https://github.com/yonicd/carbonate) from Jonathan Sidi. A robust approach to a similar problem. `carbonate` uses R6 classes and RSelenium. Rather than using `RSelenium`, `gistillery` uses `webshot2` to take a screenshot of the code with `chromote`.  
+-   [`gistr`](https://github.com/ropensci/gistr) from ROpenSci - I use this under the hood, it provides a powerful and general interface to Gists  
+-   [`gistfo`](https://github.com/MilesMcBain/gistfo) from Miles McBain/Garrick Aden-Buie, this is a usefully opinionated "Get It Somewhere The F\*\*\* Online" package. I also use parts of this under the hood.  
+-   [`carbonate`](https://github.com/yonicd/carbonate) from Jonathan Sidi. A robust approach to a similar problem. `carbonate` uses R6 classes and RSelenium. Rather than using `RSelenium`, `gistillery` uses `webshot2` to take a screenshot of the code with `chromote`.
 
 ## Installation
 
@@ -23,11 +23,11 @@ remotes::install_github("jthomasmock/gistillery")
 
 ## Core Workflow
 
-There are three core functions, providing three steps in the process. Take code and upload to a Gist, take a screenshot of it, and then add a image url to the Gist. Importantly, steps are not _required_ so you can take existing Gists and use components of these functions rather than having to stick to the end-to-end workflow.
+There are three core functions, providing three steps in the process. Take code and upload to a Gist, take a screenshot of it, and then add a image url to the Gist. Importantly, steps are not *required* so you can take existing Gists and use components of these functions rather than having to stick to the end-to-end workflow.
 
 Please note that for Github Authentication which is required to affect your Gists, you'll need to reference the [`gistr` docs](https://docs.ropensci.org/gistr/reference/gist_auth.html)
 
-> Generate a personal access token with the gist scope selected, and set it as the GITHUB_PAT environment variable per session using Sys.setenv or across sessions by adding it to your .Renviron file or similar. See https://help.github.com/articles/creating-an-access-token-for-command-line-use for help
+> Generate a personal access token with the gist scope selected, and set it as the GITHUB_PAT environment variable per session using Sys.setenv or across sessions by adding it to your .Renviron file or similar. See <https://help.github.com/articles/creating-an-access-token-for-command-line-use> for help
 
 ### Step 1
 
@@ -62,7 +62,7 @@ gist_upload(test_reprex, gist_name = "reprex-object.R")
 
 ### Step 2
 
-Regardless of _how_ you got the code to a Gist, you can then move on to step 2 and get the code over to [carbon.now.sh](https://carbon.now.sh) for beautiful screenshots. It takes the unique id for a Gist and then returns a lovely screenshot.
+Regardless of *how* you got the code to a Gist, you can then move on to step 2 and get the code over to [carbon.now.sh](https://carbon.now.sh) for beautiful screenshots. It takes the unique id for a Gist and then returns a lovely screenshot. Note that if you want to share that screenshot it also appends the gist URL to the bottom of the image. You should also include alt-text linking out to the Gist!
 
 ``` r
 # core workflow
@@ -72,13 +72,15 @@ gist_to_carbon(
   )
 ```
 
-![A screenshot of code, with the full code available at: https://gist.github.com/jthomasmock/17adcd1a401bec0e41cbd671048ff0b4](https://i.imgur.com/CwhrqKy.png)
+![A screenshot of code, with the full code available at: <https://gist.github.com/jthomasmock/17adcd1a401bec0e41cbd671048ff0b4>](https://i.imgur.com/CwhrqKy.png)
 
 If you want to go further with customization, you can change the background color with `bg`, the code theme with `theme`, the monospace font with `font`, the programming language with `lang` and optionally turn on/off the "upload to Imgur" feature. The `imgur=TRUE` option will give you an immediate URL so that you can embed the code elsewhere without having to actually upload the full image again.
 
+You can also set some of these parameters via `options` like so: `options(gistillery.bg = "#d3d3d3", gistillery.theme = "cobalt", gistillery.font = "Fira+Code")`
+
 ### Step 3
 
-Now that you have a local image and the Imgur link, you can use the third function. `add_gist_img` will take an existing gist and append the Imgur link to the code itself, that way you can programmatically add screenshots back to your specific Gists.
+Now that you have a local image and the Imgur link, you can use the third function. `add_gist_img` will take an existing gist and append the Imgur link to the code itself, that way you can programmatically add the screenshot URL back to your specific Gists.
 
 ``` r
 gist_append_img(
@@ -86,6 +88,16 @@ gist_append_img(
   gist_id = "17adcd1a401bec0e41cbd671048ff0b4"
   )
 ```
+
+Alternatively, you can use the Imgur link to include your code in places where it's inconvenient to use local image files or when you can't format code properly.
+
+You can also use `gist_comment()` to upload a markdown-styled image into the comments of an existing Gist, like below:
+
+``` r
+gist_comment(gist_id, "![](some-valid-imgur-url.png)")
+```
+
+That will add a comment to the existing gist, adding a markdown image.
 
 ### Step N + 1
 
@@ -110,17 +122,11 @@ rtweet::post_tweet(
 )
 ```
 
-Alternatively, you can use the Imgur link to include your code to places where it's inconvenient to use local image files or when you can't format code properly.
 
-You can also use `gist_comment()` to upload a markdown-styled image into the comments of an existing Gist, like below:
-
-``` r
-gist_comment(gist_id, "![](imgur-url.png)")
-```
 
 ### Altogether
 
-If you wanted, you could used a pipe based workflow to get a seamless `reprex` -> upload to Gist -> screenshot from Carbon.
+If you wanted, you could used a pipe based workflow to get a seamless `reprex` -\> upload to Gist -\> screenshot from Carbon.
 
 ``` r
 reprex::reprex() |> 
