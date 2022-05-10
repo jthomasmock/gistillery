@@ -7,16 +7,20 @@
 #' @param font A character string for font, one of "IBM+Plex+Mono", "Hack", "Fira+Code", "Source+Code+Pro"
 #' @param lang A language for syntax highlighting, ie one of "python", "r", "yaml", "markdown", "text", "auto"
 #' @param imgur A logical, should the image also be uploaded to imgur.
-#' @inheritDotParams webshot2::webshot
-#' @import glue
+#' @param width a number, indicating the width in pixels for screenshot
+#' @param drop_shadow Logical indicating whether to include drop shadow for the screenshot.
+#' @param width_auto_adjust Logical indicating whether to auto adjust the width for better code-printing
+#' @import glue chromote
 #' @importFrom knitr imgur_upload
-#' @importFrom webshot2 webshot
 #' @return Saves an image to disk and optionally returns the uploaded imgur URL
 #' @export
 
 gist_to_carbon <- function(gist_id, file = "code.png", bg = "#4A90E2",
                            theme = "night-owl", font = "Hack",
-                           lang = "auto", imgur = TRUE, ...) {
+                           lang = "auto", imgur = TRUE,
+                           drop_shadow = TRUE,
+                           width = 680,
+                           width_auto_adjust = TRUE) {
   fonts <- c("IBM+Plex+Mono", "Hack", "Fira+Code", "Source+Code+Pro")
   langs <- c("python", "r", "yaml", "markdown", "text", "auto")
   themes <- c(
@@ -73,7 +77,7 @@ gist_to_carbon <- function(gist_id, file = "code.png", bg = "#4A90E2",
     return(file)
   }
 
-  imgur_url <- as.character(knitr::imgur_upload(img))
+  imgur_url <- as.character(knitr::imgur_upload(file))
   list(imgur_url = imgur_url, gist_id = gist_id)
 }
 
@@ -105,4 +109,3 @@ gist_append_img <- function(imgur_url, gist_id = NULL) {
   # cleanup/remove file
   rm(gist_id_file)
 }
-

@@ -12,6 +12,9 @@ gist_to_carbon(
   font = "Hack",
   lang = "auto",
   imgur = TRUE,
+  drop_shadow = TRUE,
+  width = 680,
+  width_auto_adjust = TRUE,
   ...
 )
 }
@@ -29,6 +32,12 @@ gist_to_carbon(
 \item{lang}{A language for syntax highlighting, ie one of "python", "r", "yaml", "markdown", "text", "auto"}
 
 \item{imgur}{A logical, should the image also be uploaded to imgur.}
+
+\item{drop_shadow}{Logical indicating whether to include drop shadow for the screenshot.}
+
+\item{width}{a number, indicating the width in pixels for screenshot}
+
+\item{width_auto_adjust}{Logical indicating whether to auto adjust the width for better code-printing}
 
 \item{...}{
   Arguments passed on to \code{\link[webshot2:webshot]{webshot2::webshot}}
