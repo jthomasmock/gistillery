@@ -7,6 +7,7 @@
 #' @param font A character string for font, one of "IBM+Plex+Mono", "Hack", "Fira+Code", "Source+Code+Pro"
 #' @param lang A language for syntax highlighting, ie one of "python", "r", "yaml", "markdown", "text", "auto"
 #' @param imgur A logical, should the image also be uploaded to imgur.
+#' @inheritDotParams webshot2::webshot
 #' @import glue
 #' @importFrom knitr imgur_upload
 #' @importFrom webshot2 webshot
@@ -15,7 +16,7 @@
 
 gist_to_carbon <- function(gist_id, file = "code.png", bg = "#4A90E2",
                            theme = "shades-of-purple", font = "Fira+Code",
-                           lang = "auto", imgur = TRUE) {
+                           lang = "auto", imgur = TRUE, ...) {
   fonts <- c("IBM+Plex+Mono", "Hack", "Fira+Code", "Source+Code+Pro")
   langs <- c("python", "r", "yaml", "markdown", "text", "auto")
   themes <- c("cobalt", "nord", "seti", "night-owl", "monokai", "material", "vscode", "verminal", "synthwave-84", "shades-of-purple")
@@ -25,14 +26,14 @@ gist_to_carbon <- function(gist_id, file = "code.png", bg = "#4A90E2",
   if (!(theme %in% themes)) stop(paste("Theme must be one of", themes), call. = FALSE)
   if (!(font %in% fonts)) stop(paste("Font must be one of", fonts), call. = FALSE)
 
-  bcol <- col2rgb(bg)
+  bcol <- grDevices::col2rgb(bg)
   bg_txt <- glue::glue("rgba%28{bcol[1]}%2C{bcol[2]}%2C{bcol[3]}%2C{1}%29")
 
   carbon_query <- glue::glue("bg={bg_txt}&t={theme}&fm={font}&lang={lang}")
   carbon_url <- glue::glue("https://carbon.now.sh/embed/{gist_id}?{carbon_query}")
 
   # save to disk
-  webshot2::webshot(url = carbon_url, file = file, zoom = 3)
+  webshot2::webshot(url = carbon_url, file = file, zoom = 3, ...)
   # upload to imgur
   if (imgur) {
     imgur_url <- as.character(knitr::imgur_upload(file))
@@ -48,7 +49,7 @@ gist_to_carbon <- function(gist_id, file = "code.png", bg = "#4A90E2",
 #' @import gistr glue
 #' @return Adds a commented line to bottom of existing Gist code
 #' @export
-add_gist_img <- function(imgur_url, gist_id = NULL) {
+gist_append_img <- function(imgur_url, gist_id = NULL) {
   base_gist <- gistr::gist(gist_id)
   gist_url <- base_gist$html_url
 

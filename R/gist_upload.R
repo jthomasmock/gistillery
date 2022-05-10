@@ -3,6 +3,7 @@
 #' @param content the code, either the currently highlighted file or manually indicated code
 #' @param gist_name a valid filename ie my-code.R
 #' @import gistr gistfo
+#' @inherit gistr::gist_create
 #' @return gist id and the gist URL to clipboard
 #' @export
 
@@ -37,9 +38,9 @@ gist_upload <- function(content = NULL, gist_name = NULL, ...) {
   )
 
   # Add URL to gist as comment at bottom of gist
-  if (gistfo:::is_file_ext(gist_name, "r", "html", "r?md", "md", "q?md", "js", "cpp", "py")) {
+  if (is_file_ext(gist_name, "r", "html", "r?md", "md", "q?md", "js", "cpp", "py")) {
     gist_url <- the_gist$html_url
-    comment <- gistfo:::comment_single_line(gist_name, gist_url)
+    comment <-  glue::glue("\n\n# {gist_url}\n", .trim = FALSE)
     cat(comment, file = gist_file, append = TRUE)
     the_gist <- gistr::update_files(the_gist, gist_file)
     gistr::update(the_gist)
@@ -47,6 +48,21 @@ gist_upload <- function(content = NULL, gist_name = NULL, ...) {
 
   utils::browseURL(the_gist$html_url)
 
-  gistfo:::maybe_clip(gist_url)
-  return(the_gist$id)
+  maybe_clip(gist_url)
+  return(paste(the_gist$id, "@", the_gist$html_url))
+}
+
+# vendored from: https://github.com/MilesMcBain/gistfo/blob/master/R/gistfo.R#L155-L159
+maybe_clip <- function(text) {
+  has_clipr <- requireNamespace("clipr", quietly = TRUE)
+  if (has_clipr && clipr::clipr_available()) {
+    clipr::write_clip(text)
+  }
+  text
+}
+
+# vendored from: https://github.com/MilesMcBain/gistfo/blob/master/R/gistfo.R#L104-L107
+is_file_ext <- function(path, ...) {
+  exts <- paste(tolower(c(...)), collapse = "|")
+  grepl(glue::glue("[.]({exts})$"), tolower(path))
 }

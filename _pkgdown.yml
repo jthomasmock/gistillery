@@ -1,0 +1,8 @@
+url: https://jthomasmock.github.io/gistillery
+home:
+  title: Upload code to Github Gists and to Carbon
+  description: Easily create gists and save beautiful code screenshots with Carbon
+template:
+  bootstrap: 5
+  bootswatch: litera
+
