@@ -56,6 +56,9 @@
   font <span class="op">=</span> <span class="st">"Hack"</span>,
   lang <span class="op">=</span> <span class="st">"auto"</span>,
   imgur <span class="op">=</span> <span class="cn">TRUE</span>,
+  drop_shadow <span class="op">=</span> <span class="cn">TRUE</span>,
+  width <span class="op">=</span> <span class="fl">680</span>,
+  width_auto_adjust <span class="op">=</span> <span class="cn">TRUE</span>,
   <span class="va">...</span>
 <span class="op">)</span></code></pre></div>
     </div>
@@ -76,6 +79,12 @@
 <dd><p>A language for syntax highlighting, ie one of "python", "r", "yaml", "markdown", "text", "auto"</p></dd>
 <dt>imgur</dt>
 <dd><p>A logical, should the image also be uploaded to imgur.</p></dd>
+<dt>drop_shadow</dt>
+<dd><p>Logical indicating whether to include drop shadow for the screenshot.</p></dd>
+<dt>width</dt>
+<dd><p>a number, indicating the width in pixels for screenshot</p></dd>
+<dt>width_auto_adjust</dt>
+<dd><p>Logical indicating whether to auto adjust the width for better code-printing</p></dd>
 <dt>...</dt>
 <dd><p>Arguments passed on to <code><a href="https://rdrr.io/pkg/webshot2/man/webshot.html" class="external-link">webshot2::webshot</a></code></p><dl><dt><code>url</code></dt>
 <dd><p>A vector of URLs to visit. If multiple URLs are provided, it will
