@@ -7,9 +7,9 @@
 gist_to_carbon(
   gist_id,
   file = "code.png",
-  bg = "#4A90E2",
-  theme = "night-owl",
-  font = "Hack",
+  bg = getOption("gistillery.bg", default = "#4A90E2"),
+  theme = getOption("gistillery.theme", default = "night-owl"),
+  font = getOption("gistillery.font", default = "Hack"),
   lang = "auto",
   imgur = TRUE,
   drop_shadow = TRUE,

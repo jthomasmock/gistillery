@@ -15,12 +15,18 @@
 #' @return Saves an image to disk and optionally returns the uploaded imgur URL
 #' @export
 
-gist_to_carbon <- function(gist_id, file = "code.png", bg = "#4A90E2",
-                           theme = "night-owl", font = "Hack",
-                           lang = "auto", imgur = TRUE,
-                           drop_shadow = TRUE,
-                           width = 680,
-                           width_auto_adjust = TRUE) {
+gist_to_carbon <- function(
+  gist_id, file = "code.png",
+  bg = getOption("gistillery.bg", default = "#4A90E2"),
+  theme = getOption("gistillery.theme", default = "night-owl"),
+  font = getOption("gistillery.font", default = "Hack"),
+  lang = "auto",
+  imgur = TRUE,
+  drop_shadow = TRUE,
+  width = 680,
+  width_auto_adjust = TRUE) {
+
+  # currently available fonts/themes/langs
   fonts <- c("IBM+Plex+Mono", "Hack", "Fira+Code", "Source+Code+Pro")
   langs <- c("python", "r", "yaml", "markdown", "text", "auto")
   themes <- c(
