@@ -17,7 +17,8 @@ Imports:
     knitr,
     rstudioapi,
     webshot2
-URL: https://github.com/jthomasmock/gistillery
+URL: https://github.com/jthomasmock/gistillery,
+    https://jthomasmock.github.io/gistillery/
 BugReports: https://github.com/jthomasmock/gistillery/issues
 Suggests: 
     clipr
