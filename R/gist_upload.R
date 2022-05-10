@@ -4,7 +4,7 @@
 #' @param gist_name a valid filename ie my-code.R
 #' @import gistr gistfo
 #' @inherit gistr::gist_create
-#' @return gist id and the gist URL to clipboard
+#' @return gist id and the gist URL to clipboard, can be piped directly into gist_to_carbon
 #' @export
 
 gist_upload <- function(content = NULL, gist_name = NULL, ...) {

@@ -1,6 +1,6 @@
 #' Take an existing gist, send to carbon, and save the image locally
 #'
-#' @param gist_id the unique id for your existing gist
+#' @param gist_id the unique id for your existing gist, can be piped from gist_upload() or passed manually.
 #' @param file the name of the file for printing, eg code.png
 #' @param bg A valid hex code for color, ie #D3D3D3
 #' @param theme A valid theme, ie one of "cobalt", "nord", "seti", "night-owl", "monokai", "material", "vscode", "verminal", "synthwave-84", "shades-of-purple"
@@ -53,8 +53,8 @@ gist_to_carbon <- function(gist_id, file = "code.png", bg = "#4A90E2",
 
 #' Add imgur-hosted URL to existing gist as a "comment" to bottom of script.
 #'
-#' @param imgur_url Existing URL from imgur, typically as created with tomtom::gist_to_carbon
-#' @param gist_id Unique ID for an existing Github Gist
+#' @param imgur_url Existing URL from imgur, typically as created with gistillery::gist_to_carbon()
+#' @param gist_id Unique ID for an existing Github Gist - this is where the comment will be added.
 #' @import gistr glue
 #' @return Adds a commented line to bottom of existing Gist code
 #' @export
