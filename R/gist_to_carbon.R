@@ -54,7 +54,7 @@ gist_to_carbon <- function(gist_id, file = "code.png", bg = "#4A90E2",
 
   carbon_query <- glue::glue("bg={bg_txt}&t={theme}&fm={font}&lang={lang}{drop_shadow}&width={width}&wa={width_auto_adjust}")
   carbon_url <- glue::glue("https://carbon.now.sh/embed/{gist_id}?{carbon_query}")
-  cli::cli_inform("{.url {carbon_url}}")
+  cli::cli_alert_success("Carbon.now.sh used {.url {carbon_url}}")
 
   b <- chromote::ChromoteSession$new(
     # set the screen size to avoid clipped code
@@ -78,7 +78,10 @@ gist_to_carbon <- function(gist_id, file = "code.png", bg = "#4A90E2",
   }
 
   imgur_url <- as.character(knitr::imgur_upload(file))
-  list(imgur_url = imgur_url, gist_id = gist_id)
+
+  gist_append_img(imgur_url = imgur_url, gist_id= gist_id)
+  cli::cli_alert_info("imgur url added to {.field {gist_id}}")
+  cli::cli_alert_success("imgur link at {.url {imgur_url}}")
 }
 
 

@@ -114,6 +114,6 @@ If you wanted, you could used a pipe based workflow to get a seamless `reprex` -
 
 ``` r
 reprex::reprex() |> 
-  gist_upload("my-code.R") |> 
-  gist_to_carbon()
+  gistillery::gist_upload(gist_name = "new-test-reprex.R") |> 
+  gist_to_carbon(file = "new-test-reprex.png") 
 ```
