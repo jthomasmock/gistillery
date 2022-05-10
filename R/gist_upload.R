@@ -37,19 +37,26 @@ gist_upload <- function(content = NULL, gist_name = NULL, ...) {
     ...
   )
 
+  gist_url <- the_gist$html_url
+
   # Add URL to gist as comment at bottom of gist
   if (is_file_ext(gist_name, "r", "html", "r?md", "md", "q?md", "js", "cpp", "py")) {
-    gist_url <- the_gist$html_url
+
     comment <-  glue::glue("\n\n# {gist_url}\n", .trim = FALSE)
     cat(comment, file = gist_file, append = TRUE)
     the_gist <- gistr::update_files(the_gist, gist_file)
     gistr::update(the_gist)
   }
 
-  utils::browseURL(the_gist$html_url)
+  utils::browseURL(gist_url)
 
+  # try to put it out to clipboard
   maybe_clip(gist_url)
-  return(paste(the_gist$id, "@", the_gist$html_url))
+  # return id for piping to gist_to_carbon
+  return(the_gist$id)
+
+  # print the URL as well
+  print(gist_url)
 }
 
 # vendored from: https://github.com/MilesMcBain/gistfo/blob/master/R/gistfo.R#L155-L159
