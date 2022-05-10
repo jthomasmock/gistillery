@@ -19,7 +19,10 @@ gist_to_carbon <- function(gist_id, file = "code.png", bg = "#4A90E2",
                            lang = "auto", imgur = TRUE, ...) {
   fonts <- c("IBM+Plex+Mono", "Hack", "Fira+Code", "Source+Code+Pro")
   langs <- c("python", "r", "yaml", "markdown", "text", "auto")
-  themes <- c("cobalt", "nord", "seti", "night-owl", "monokai", "material", "vscode", "verminal", "synthwave-84", "shades-of-purple")
+  themes <- c(
+    "cobalt", "nord", "seti", "night-owl", "monokai",
+    "material", "vscode", "verminal", "synthwave-84", "shades-of-purple"
+  )
 
   if (!(nchar(bg) == 7 && grepl("#", bg))) stop("The background must be a 6 unit hex value preceded by #, like #4A90E2", call. = FALSE)
   if (!(lang %in% langs)) stop(paste("Language must be one of", langs), call. = FALSE)
@@ -27,13 +30,19 @@ gist_to_carbon <- function(gist_id, file = "code.png", bg = "#4A90E2",
   if (!(font %in% fonts)) stop(paste("Font must be one of", fonts), call. = FALSE)
 
   bcol <- grDevices::col2rgb(bg)
+  # convert to their RGBA format, dropping the various components
+  # into their correct boxes - also note that alpha is on a 0 to 1 scale
   bg_txt <- glue::glue("rgba%28{bcol[1]}%2C{bcol[2]}%2C{bcol[3]}%2C{1}%29")
 
+  # could expand in future to alternative options
   carbon_query <- glue::glue("bg={bg_txt}&t={theme}&fm={font}&lang={lang}")
   carbon_url <- glue::glue("https://carbon.now.sh/embed/{gist_id}?{carbon_query}")
 
   # save to disk
-  webshot2::webshot(url = carbon_url, file = file, zoom = 3, ...)
+  webshot2::webshot(
+    url = carbon_url, file = file, zoom = 3,
+    selector = "div.export-container", ...
+  )
   # upload to imgur
   if (imgur) {
     imgur_url <- as.character(knitr::imgur_upload(file))

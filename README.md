@@ -68,7 +68,7 @@ gist_to_carbon(
   )
 ```
 
-![A screenshot of code, with the full code available at: https://gist.github.com/jthomasmock/17adcd1a401bec0e41cbd671048ff0b4](https://i.imgur.com/UEkGyx7.png)
+![A screenshot of code, with the full code available at: https://gist.github.com/jthomasmock/17adcd1a401bec0e41cbd671048ff0b4](https://i.imgur.com/CwhrqKy.png)
 
 If you want to go further with customization, you can change the background color with `bg`, the code theme with `theme`, the monospace font with `font`, the programming language with `lang` and optionally turn on/off the "upload to Imgur" feature. The `imgur=TRUE` option will give you an immediate URL so that you can embed the code elsewhere without having to actually upload the full image again.
 
