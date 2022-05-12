@@ -11,8 +11,8 @@
 #' @importFrom webshot2 webshot
 #' @importFrom knitr imgur_upload
 #' @export
-reprex_shot <- function(filename = NULL, open_file = TRUE,
-                        imgur = FALSE, ...) {
+reprex_shot <- function(filename = NULL, ..., open_file = TRUE,
+                        imgur = FALSE) {
   reprex::reprex(...)
 
   # get tempfiles
