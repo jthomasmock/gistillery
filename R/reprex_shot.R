@@ -1,10 +1,10 @@
 #' Execute a reprex::reprex() and take a local screenshot of the reprex output
-#' @description `reprex_shot()` will first take a `reprex` and then capture the
+#' @description reprex_shot() will first take a reprex and then capture the
 #' HTML output into an on-disk image, optionally uploading the image to Imgur.
 #' @param filename a filename, ending in .png
 #' @param open_file A logical, should the file be opened once saved
 #' @param imgur A logical, should the image be uploaded to imgur also
-#' @inheritDotParams reprex::reprex
+#' @param ... additional arguments passed to reprex::reprex()
 #' @return a screenshot of the reprex on disk
 #' @importFrom reprex reprex
 #' @import cli
@@ -13,7 +13,6 @@
 #' @export
 reprex_shot <- function(filename = NULL, open_file = TRUE,
                         imgur = FALSE, ...) {
-
   reprex::reprex(...)
 
   # get tempfiles
@@ -41,11 +40,7 @@ reprex_shot <- function(filename = NULL, open_file = TRUE,
 
   # print number of lines, a basic output so that you can
   # pipe reprex::reprex() directly into reprex_shot()
-  if (!is.null(code)) {
-    cli::cli_alert_info("reprex code had {length(code)} lines")
-  } else {
-    cli::cli_alert_info("Used most recent reprex {.field {max(time_fs)}} at {.path {temp_reprex}}")
-  }
+  cli::cli_alert_info("Used most recent reprex {.field {max(time_fs)}} at {.path {temp_reprex}}")
 
   # optionally auto-open new file
   if (open_file) rstudioapi::viewer(filename)
