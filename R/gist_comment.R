@@ -22,7 +22,8 @@ gist_comment <- function(gist_id, comment){
     message
   }
 
-  token <- ifelse(!is.null(token), token, Sys.getenv("GITHUB_PAT"))
+  # consider moving to token-based auth via httr2
+  # token <- ifelse(!is.null(token), token, Sys.getenv("GITHUB_PAT"))
 
   req_built <- "https://api.github.com" |>
     request() |>
