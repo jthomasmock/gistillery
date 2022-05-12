@@ -4,18 +4,12 @@
 \alias{gist_comment}
 \title{Add a comment to an existing gist}
 \usage{
-gist_comment(
-  gist_id,
-  body = "![](pbs.twimg.com/media/FBGfjADUYAUxiPz?format=png)",
-  ...
-)
+gist_comment(gist_id, comment)
 }
 \arguments{
 \item{gist_id}{Character string indicating the gist ID}
 
-\item{body}{The comment text}
-
-\item{...}{Additional arguments passed to `gistr:::gist_post()`}
+\item{comment}{The comment text}
 }
 \value{
 A string of the comment text

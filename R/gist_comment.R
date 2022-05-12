@@ -1,19 +1,45 @@
 #' Add a comment to an existing gist
 #'
 #' @param gist_id Character string indicating the gist ID
-#' @param body The comment text
-#' @param ... Additional arguments passed to `gistr:::gist_post()`
+#' @param comment The comment text
 #'
 #' @return A string of the comment text
 #' @export
-#' @import gistr
+#' @import httr2
+#' @importFrom gistr gist_auth
+#' @importFrom httr2 %>%
 #' @importFrom jsonlite toJSON
 #'
-gist_comment <- function(
-    gist_id,
-    body = "![](pbs.twimg.com/media/FBGfjADUYAUxiPz?format=png)", ...) {
-  if (is.null(gist_id)) stop("Please provide a gist_id", call. = FALSE)
-  body <- jsonlite::toJSON(list(body = body), auto_unbox = TRUE)
-  res <- gistr:::gist_POST(paste0(gistr:::ghbase(), "/gists/", gist_id, "/comments"), gistr::gist_auth(), gistr:::ghead(), body, ...)
-  res$body
+gist_comment <- function(gist_id, comment){
+
+  gist_error_body <- function(resp) {
+    body <- httr2::resp_body_json(resp)
+
+    message <- body$message
+    if (!is.null(body$documentation_url)) {
+      message <- c(message, paste0("See docs at <", body$documentation_url, ">"))
+    }
+    message
+  }
+
+  token <- ifelse(!is.null(token), token, Sys.getenv("GITHUB_PAT"))
+
+  req_built <- "https://api.github.com" |>
+    request() |>
+    req_url_path_append("gists") |>
+    req_url_path_append(gist_id) |>
+    req_url_path_append("comments") |>
+    req_headers(
+      gistr::gist_auth(),
+      "User-Agent" = "gistr",
+      Accept = "application/vnd.github.v3+json"
+    ) |>
+    httr2::req_body_json(
+      list(body = comment)
+    ) |>
+    req_error(body = gist_error_body)
+
+  httr2::req_perform(req_built)
+
 }
+
