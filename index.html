@@ -37,7 +37,7 @@
     
     <a class="navbar-brand me-2" href="index.html">gistillery</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -91,13 +91,13 @@
 </h2>
 <p>You can install the development version of gistillery from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># install.packages("remptes")</span>
+<code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
 <span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"jthomasmock/gistillery"</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="core-workflow">Core Workflow<a class="anchor" aria-label="anchor" href="#core-workflow"></a>
 </h2>
-<p>There are three core functions, providing three steps in the process. Take code and upload to a Gist, take a screenshot of it, and then add a image url to the Gist. Importantly, steps are not <em>required</em> so you can take existing Gists and use components of these functions rather than having to stick to the end-to-end workflow.</p>
+<p>There are three core functions, providing three steps in the process. Take code and upload to a Gist, take a screenshot of it, and then add a image url to the Gist. Importantly, all the steps are not <em>required</em> to be completed via this workflow. You can take existing Gists and use components of these functions rather than having to stick to the end-to-end workflow.</p>
 <p>Please note that for Github Authentication which is required to affect your Gists, you’ll need to reference the <a href="https://docs.ropensci.org/gistr/reference/gist_auth.html" class="external-link"><code>gistr</code> docs</a></p>
 <blockquote><p>Generate a personal access token with the gist scope selected, and set it as the GITHUB_PAT environment variable per session using Sys.setenv or across sessions by adding it to your .Renviron file or similar. See <a href="https://help.github.com/articles/creating-an-access-token-for-command-line-use" class="external-link uri">https://help.github.com/articles/creating-an-access-token-for-command-line-use</a> for help</p></blockquote>
 <div class="section level3">
@@ -132,6 +132,8 @@
 <p>Regardless of <em>how</em> you got the code to a Gist, you can then move on to step 2 and get the code over to <a href="https://carbon.now.sh" class="external-link">carbon.now.sh</a> for beautiful screenshots. It takes the unique id for a Gist and then returns a lovely screenshot. Note that if you want to share that screenshot it also appends the gist URL to the bottom of the image. You should also include alt-text linking out to the Gist!</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># core workflow</span>
+<span class="co"># specify the gist id to get code from</span>
+<span class="co"># specify the name of the output png</span>
 <span class="fu"><a href="reference/gist_to_carbon.html">gist_to_carbon</a></span><span class="op">(</span>
   gist_id <span class="op">=</span> <span class="st">"17adcd1a401bec0e41cbd671048ff0b4"</span>, 
   file <span class="op">=</span> <span class="st">"my-screenshot.png"</span>
