@@ -11,5 +11,6 @@ template:
       alt: The package hex logo, it is pixel art of a swan neck copper distillation pot with a octopus off to one side.
     twitter:
       creator: '@thomas_mock'
+      image: https://raw.githubusercontent.com/jthomasmock/gistillery/main/man/figures/gistillery-logo.png
       site: https://jthomasmock.github.io/distillery
       card: summary

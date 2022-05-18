@@ -31,7 +31,7 @@ gist_comment <- function(gist_id="73b34a7d484360036fee122c5a745f44", comment="pb
     req_url_path_append(gist_id) %>%
     req_url_path_append("comments") %>%
     req_headers(
-      Authorization = gistr::gist_auth()$Authorization,
+      Authorization = git_auth(), #$Authorization,
       "User-Agent" = "gistr",
       Accept = "application/vnd.github.v3+json"
     ) %>%
