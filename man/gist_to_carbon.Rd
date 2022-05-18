@@ -24,9 +24,9 @@ gist_to_carbon(
 
 \item{bg}{A valid hex code for color, ie #D3D3D3}
 
-\item{theme}{A valid theme, ie one of "cobalt", "nord", "seti", "night-owl", "monokai", "material", "vscode", "verminal", "synthwave-84", "shades-of-purple"}
+\item{theme}{A valid theme, such as "cobalt", "nord", "night-owl", "monokai" - for all available themes, see `carbon_themes`}
 
-\item{font}{A character string for font, one of "IBM+Plex+Mono", "Hack", "Fira+Code", "Source+Code+Pro"}
+\item{font}{A valid font ID such as "IBM+Plex+Mono", "Hack", "Fira+Code" - for all available fonts, see `carbon_fonts`}
 
 \item{lang}{A language for syntax highlighting, ie one of "python", "r", "yaml", "markdown", "text", "auto"}
 

@@ -3,8 +3,8 @@
 #' @param gist_id the unique id for your existing gist, can be piped from gist_upload() or passed manually.
 #' @param file the name of the file for printing, eg code.png
 #' @param bg A valid hex code for color, ie #D3D3D3
-#' @param theme A valid theme, ie one of "cobalt", "nord", "seti", "night-owl", "monokai", "material", "vscode", "verminal", "synthwave-84", "shades-of-purple"
-#' @param font A character string for font, one of "IBM+Plex+Mono", "Hack", "Fira+Code", "Source+Code+Pro"
+#' @param theme A valid theme, such as "cobalt", "nord", "night-owl", "monokai" - for all available themes, see `carbon_themes`
+#' @param font A valid font ID such as "IBM+Plex+Mono", "Hack", "Fira+Code" - for all available fonts, see `carbon_fonts`
 #' @param lang A language for syntax highlighting, ie one of "python", "r", "yaml", "markdown", "text", "auto"
 #' @param imgur A logical, should the image also be uploaded to imgur.
 #' @param width a number, indicating the width in pixels for screenshot
@@ -27,17 +27,14 @@ gist_to_carbon <- function(
   width_auto_adjust = TRUE) {
 
   # currently available fonts/themes/langs
-  fonts <- c("IBM+Plex+Mono", "Hack", "Fira+Code", "Source+Code+Pro")
-  langs <- c("python", "r", "yaml", "markdown", "text", "auto")
-  themes <- c(
-    "cobalt", "nord", "seti", "night-owl", "monokai", "hopscotch", "twilight",
-    "material", "vscode", "verminal", "synthwave-84", "shades-of-purple"
-  )
+  fonts <- gistillery::carbon_fonts
+  themes <- gistillery::carbon_themes
+  langs <- c("python", "r", "yaml", "markdown", "text", "auto", "sql", "dockerfile", "javascript", "julia", "shell", "css", "htmlmixed")
 
   if (!(nchar(bg) == 7 && grepl("#", bg))) stop("The background must be a 6 unit hex value preceded by #, like #4A90E2", call. = FALSE)
   if (!(lang %in% langs)) stop(paste("Language must be one of", langs), call. = FALSE)
-  if (!(theme %in% themes)) stop(paste("Theme must be one of", themes), call. = FALSE)
-  if (!(font %in% fonts)) stop(paste("Font must be one of", fonts), call. = FALSE)
+  if (!(theme %in% themes)) stop(paste("Theme must be one of the ones found in `carbon_themes`."), call. = FALSE)
+  if (!(font %in% fonts)) stop(paste("Font must be one of the ones found in `carbon_fonts`."), call. = FALSE)
 
   bcol <- grDevices::col2rgb(bg)
   # convert to their RGBA format, dropping the various components
@@ -118,3 +115,25 @@ gist_append_img <- function(imgur_url, gist_id = NULL) {
   # cleanup/remove file
   rm(gist_id_file)
 }
+
+#' Carbon themes
+#'
+#' A list of available themes supported by Carbon.
+#'
+#' Sourced from <https://github.com/carbon-app/carbon/blob/main/lib/constants.js>
+#'
+#' @examples {
+#' carbon_themes
+#' }
+"carbon_themes"
+
+#' Carbon fonts
+#'
+#' A list of available fonts that carbon supports.
+#'
+#' Sourced from: <https://github.com/carbon-app/carbon/blob/main/lib/constants.js>
+#'
+#' @examples {
+#' carbon_fonts
+#' }
+"carbon_fonts"
