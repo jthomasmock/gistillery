@@ -6,3 +6,5 @@
 ^pkgdown$
 ^\.github$
 ^_build_logo.R
+^data-raw$
+^\.httr-oauth$
