@@ -17,13 +17,13 @@ Other packages that operate in the same space:
 You can install the development version of gistillery from [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("remptes")
+# install.packages("remotes")
 remotes::install_github("jthomasmock/gistillery")
 ```
 
 ## Core Workflow
 
-There are three core functions, providing three steps in the process. Take code and upload to a Gist, take a screenshot of it, and then add a image url to the Gist. Importantly, steps are not *required* so you can take existing Gists and use components of these functions rather than having to stick to the end-to-end workflow.
+There are three core functions, providing three steps in the process. Take code and upload to a Gist, take a screenshot of it, and then add a image url to the Gist. Importantly, all the steps are not *required* to be completed via this workflow. You can take existing Gists and use components of these functions rather than having to stick to the end-to-end workflow.
 
 Please note that for Github Authentication which is required to affect your Gists, you'll need to reference the [`gistr` docs](https://docs.ropensci.org/gistr/reference/gist_auth.html)
 
@@ -66,6 +66,8 @@ Regardless of *how* you got the code to a Gist, you can then move on to step 2 a
 
 ``` r
 # core workflow
+# specify the gist id to get code from
+# specify the name of the output png
 gist_to_carbon(
   gist_id = "17adcd1a401bec0e41cbd671048ff0b4", 
   file = "my-screenshot.png"
