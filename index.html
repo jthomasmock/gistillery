@@ -37,7 +37,7 @@
     
     <a class="navbar-brand me-2" href="index.html">gistillery</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,6 +48,9 @@
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
   <a class="nav-link" href="reference/index.html">Reference</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="news/index.html">Changelog</a>
 </li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
@@ -78,10 +81,10 @@
 <p>Other packages that operate in the same space:</p>
 <ul>
 <li>
-<a href="https://github.com/ropensci/gistr" class="external-link"><code>gistr</code></a> from ROpenSci - I use this under the hood, it provides a powerful and general interface to Gists<br>
+<a href="https://github.com/ropensci/gistr" class="external-link"><code>gistr</code></a> from ROpenSci - it provides a powerful and general interface to Gists. I have taken a different approach internally with <code>httr2</code>, but inspired by this interface.<br>
 </li>
 <li>
-<a href="https://github.com/MilesMcBain/gistfo" class="external-link"><code>gistfo</code></a> from Miles McBain/Garrick Aden-Buie, this is a usefully opinionated “Get It Somewhere The F*** Online” package. I also use parts of this under the hood.<br>
+<a href="https://github.com/MilesMcBain/gistfo" class="external-link"><code>gistfo</code></a> from Miles McBain/Garrick Aden-Buie, this is a usefully opinionated “Get It Somewhere The F*** Online” package. I also adapted some concepts from this package..<br>
 </li>
 <li>
 <a href="https://github.com/yonicd/carbonate" class="external-link"><code>carbonate</code></a> from Jonathan Sidi. A robust approach to a similar problem. <code>carbonate</code> uses R6 classes and RSelenium. Rather than using <code>RSelenium</code>, <code>gistillery</code> uses <code>webshot2</code> to take a screenshot of the code with <code>chromote</code>.</li>

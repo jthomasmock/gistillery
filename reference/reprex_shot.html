@@ -12,7 +12,7 @@ HTML output into an on-disk image, optionally uploading the image to Imgur."><me
     
     <a class="navbar-brand me-2" href="../index.html">gistillery</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,6 +22,9 @@ HTML output into an on-disk image, optionally uploading the image to Imgur."><me
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="../news/index.html">Changelog</a>
 </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
@@ -51,19 +54,19 @@ HTML output into an on-disk image, optionally uploading the image to Imgur.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">reprex_shot</span><span class="op">(</span>filename <span class="op">=</span> <span class="cn">NULL</span>, open_file <span class="op">=</span> <span class="cn">TRUE</span>, imgur <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">reprex_shot</span><span class="op">(</span>filename <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span>, open_file <span class="op">=</span> <span class="cn">TRUE</span>, imgur <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>filename</dt>
 <dd><p>a filename, ending in .png</p></dd>
+<dt>...</dt>
+<dd><p>additional arguments passed to reprex::reprex()</p></dd>
 <dt>open_file</dt>
 <dd><p>A logical, should the file be opened once saved</p></dd>
 <dt>imgur</dt>
 <dd><p>A logical, should the image be uploaded to imgur also</p></dd>
-<dt>...</dt>
-<dd><p>additional arguments passed to reprex::reprex()</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
