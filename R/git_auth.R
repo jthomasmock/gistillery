@@ -65,6 +65,11 @@ git_auth <- function(app = gistr_app, reauth = FALSE) {
     auth_header(auth_config$auth_token$credentials$access_token)
   }
 
+  if(nchar(token) <= 7) {
+      cli::cli_alert_danger("Github Auth Token appears to be missing.")
+      cli::cli_alert_warning("Please set {.field GITHUB_PAT} in your {.file .Renviron} or use the {.pkg gitcreds} package.")
+  }
+
 }
 
 auth_header <- function(x) paste0("token ", x)
