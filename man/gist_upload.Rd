@@ -4,111 +4,28 @@
 \alias{gist_upload}
 \title{Take local code and upload to a named gist}
 \usage{
-gist_upload(content = NULL, gist_name = NULL, ...)
+gist_upload(
+  content = NULL,
+  gist_name = NULL,
+  description = "",
+  public = TRUE,
+  browse = TRUE
+)
 }
 \arguments{
 \item{content}{the code, either the currently highlighted file or manually indicated code}
 
 \item{gist_name}{a valid filename ie my-code.R}
 
-\item{...}{Further args passed on to \code{\link[crul]{verb-POST}}}
+\item{description}{a brief description of the gist or it's purpose}
+
+\item{public}{a logical, defaults to TRUE, indicates whether to make gist public or not}
+
+\item{browse}{a logical, defaults to TRUE, indicates whether to open the new gist in browser or not}
 }
 \value{
 gist id and the gist URL to clipboard, can be piped directly into gist_to_carbon
 }
 \description{
-Create a gist
-}
-\examples{
-\dontrun{
-file <- tempfile()
-cat("hello world", file = file)
-gist_create(files=file, description='a new cool gist')
-
-file1 <- tempfile()
-file2 <- tempfile()
-cat("foo bar", file = file1)
-cat("foo bar", file = file2)
-gist_create(files=c(file1, file2), description='spocc demo files')
-
-# include any code by passing to the code parameter
-gist_create(code={'
-x <- letters
-numbers <- runif(10)
-numbers
-'})
-
-# Knit an .Rmd file before posting as a gist
-file <- system.file("examples", "stuff.Rmd", package = "gistr")
-gist_create(file, description='a new cool gist', knit=TRUE)
-
-file <- system.file("examples", "plots.Rmd", package = "gistr")
-gist_create(file, description='some plots', knit=TRUE)
-
-# an .Rnw file
-file <- system.file("examples", "rnw_example.Rnw", package = "gistr")
-gist_create(file)
-gist_create(file, knit=TRUE)
-
-# Knit code input before posting as a gist
-gist_create(code={'
-```{r}
-x <- letters
-(numbers <- runif(8))
-```
-'}, knit=TRUE)
-
-url <- "https://raw.githubusercontent.com/ropensci/geojsonio/master/inst/examples/zillow_or.geojson"
-json <- crul::HttpClient$new(url)$get()$parse("UTF-8")
-gist_create(code = json, filename = "zillow_or.geojson")
-
-# Knit and include source file, so both files are in the gist
-file <- system.file("examples", "stuff.Rmd", package = "gistr")
-gist_create(file, knit=TRUE, include_source=TRUE)
-
-gist_create(code={'
-```{r}
-x <- letters
-(numbers <- runif(8))
-```
-'}, filename="code.Rmd", knit=TRUE, include_source=TRUE)
-
-# Uploading images created during knit process
-## using imgur - if you're file uses imgur or similar, you're good
-file <- system.file("examples", "plots_imgur.Rmd", package = "gistr")
-cat(readLines(file), sep = "\\n") # peek at file
-gist_create(file, knit=TRUE)
-## if not, GitHub doesn't allow upload of binary files via the HTTP API 
-## (which gistr uses) - so see gist_create_git(), which uses git
-file <- system.file("examples", "plots.Rmd", package = "gistr")
-gist_create(file, knit=TRUE, imgur_inject = TRUE)
-## works with ggplot2 as well
-file <- system.file("examples", "ggplot_imgur.Rmd", package = "gistr")
-gist_create(file, knit=TRUE)
-
-# Render `.R` files
-file <- system.file("examples", "example1.R", package = "gistr")
-cat(readLines(file), sep = "\\n") # peek at file
-gist_create(file, knit = TRUE)
-gist_create(file, knit = TRUE, include_source = TRUE)
-## many files
-(file1 <- system.file("examples", "example1.R", package = "gistr"))
-(file2 <- system.file("examples", "example2.R", package = "gistr"))
-cat(readLines(file1), sep = "\\n") # peek at file
-cat(readLines(file2), sep = "\\n") # peek at file
-gist_create(files=list(file1, file2), knit = TRUE)
-### three at once, some .R and some .Rmd
-file3 <- system.file("examples", "plots_imgur.Rmd", package = "gistr")
-gist_create(files=list(file1, file2, file3), knit = TRUE)
-gist_create(files=list(file1, file2, file3), knit = TRUE, 
-  include_source = TRUE)
-
-# Use rmarkdown::render instead of knitr::knit
-file <- system.file("examples", "rmarkdown_eg.Rmd", package = "gistr")
-gist_create(file, knit = TRUE, rmarkdown = TRUE, imgur_inject = TRUE,
-   renderopts = list(output_format = "md_document"))
-}
-}
-\seealso{
-\code{\link[gistr:gist_create_obj]{gist_create_obj()}}, \code{\link[gistr:gist_create_git]{gist_create_git()}}
+Take local code and upload to a named gist
 }

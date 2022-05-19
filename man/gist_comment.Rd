@@ -4,7 +4,10 @@
 \alias{gist_comment}
 \title{Add a comment to an existing gist}
 \usage{
-gist_comment(gist_id, comment)
+gist_comment(
+  gist_id = "73b34a7d484360036fee122c5a745f44",
+  comment = "![](https://pbs.twimg.com/media/FBGfjADUYAUxiPz?format=png)"
+)
 }
 \arguments{
 \item{gist_id}{Character string indicating the gist ID}

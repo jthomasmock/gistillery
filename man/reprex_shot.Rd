@@ -4,16 +4,16 @@
 \alias{reprex_shot}
 \title{Execute a reprex::reprex() and take a local screenshot of the reprex output}
 \usage{
-reprex_shot(filename = NULL, open_file = TRUE, imgur = FALSE, ...)
+reprex_shot(filename = NULL, ..., open_file = TRUE, imgur = FALSE)
 }
 \arguments{
 \item{filename}{a filename, ending in .png}
 
+\item{...}{additional arguments passed to reprex::reprex()}
+
 \item{open_file}{A logical, should the file be opened once saved}
 
 \item{imgur}{A logical, should the image be uploaded to imgur also}
-
-\item{...}{additional arguments passed to reprex::reprex()}
 }
 \value{
 a screenshot of the reprex on disk

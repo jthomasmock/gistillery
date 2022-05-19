@@ -2,22 +2,29 @@
 #'
 #' @param content the code, either the currently highlighted file or manually indicated code
 #' @param gist_name a valid filename ie my-code.R
-#' @import gistr gistfo
-#' @inherit gistr::gist_create
+#' @param description a brief description of the gist or it's purpose
+#' @param public a logical, defaults to TRUE, indicates whether to make gist public or not
+#' @param browse a logical, defaults to TRUE, indicates whether to open the new gist in browser or not
+#' @import httr2
+#' @importFrom glue glue
+#' @importFrom httr2 %>%
 #' @return gist id and the gist URL to clipboard, can be piped directly into gist_to_carbon
 #' @export
 
-gist_upload <- function(content = NULL, gist_name = NULL, ...) {
-  # code largely adapted from: https://github.com/MilesMcBain/gistfo
+gist_upload <- function(content = NULL, gist_name = NULL, description = "",
+  public = TRUE, browse = TRUE) {
 
-  stopifnot("Please give a filename with a valid file extension, like 'code.R'" = !is.null(gist_name))
+  # Some code adapted from: https://github.com/MilesMcBain/gistfo
+  stopifnot("Please give a filename with a valid file extension, like 'code.R' or `slither.py`" = !is.null(gist_name))
+  stopifnot("Please give a filename with a valid file extension, like 'code.R' or `slither.py`" = nzchar(tools::file_ext(gist_name)))
 
   if (is.null(content)) {
-    message("Using current file")
+    message("Using currently opened file")
 
     source_context <- rstudioapi::getSourceEditorContext()
 
     gist_content <- source_context$selection[[1]]$text
+
     if (gist_content == "") {
       gist_content <- paste0(source_context$contents, collapse = "\n")
     }
@@ -25,35 +32,63 @@ gist_upload <- function(content = NULL, gist_name = NULL, ...) {
     gist_content <- paste0(content, collapse = "\n")
   }
 
-  gist_file <- file.path(tempdir(), gist_name)
+  # core request
+  req_gist <- "https://api.github.com" %>%
+    httr2::request() %>%
+    httr2::req_url_path_append("gists") %>%
+    httr2::req_headers(
+      Authorization = git_auth(),
+      "User-Agent" = "gistr",
+      Accept = "application/vnd.github.v3+json"
+    )
 
-  cat(gist_content, file = gist_file)
-
-  the_gist <- gistr::gist_create(
-    files = gist_file,
-    public = TRUE,
-    browse = FALSE,
-    filename = gist_name,
-    ...
+  # build the file for upload
+  built_body <- list(
+    description = description,
+    files = list(gist_name = list(content = gist_content)),
+    public = public
   )
 
-  gist_url <- the_gist$html_url
+  # fill with gist_name
+  names(built_body$files) <- gist_name
+
+  req_add_body <- req_gist %>%
+    httr2::req_body_json(built_body) %>%
+    httr2::req_error(body = gist_error_body)
+
+  req_out <- httr2::req_perform(req_add_body)
+
+  # return id and URL for returning/other use
+  id <- httr2::resp_body_json(req_out)$id
+  gist_url <- httr2::resp_body_json(req_out)$html_url
 
   # Add URL to gist as comment at bottom of gist
-  if (is_file_ext(gist_name, "r", "html", "r?md", "md", "q?md", "js", "cpp", "py")) {
+  url_comment <- glue::glue("\n\n# Gist URL {gist_url}\n", .trim = FALSE)
+  add_url_content <- paste0(gist_content, url_comment, collapse = "")
 
-    comment <-  glue::glue("\n\n# {gist_url}\n", .trim = FALSE)
-    cat(comment, file = gist_file, append = TRUE)
-    the_gist <- gistr::update_files(the_gist, gist_file)
-    gistr::update(the_gist)
-  }
+  # rename the element with gist_name
 
-  utils::browseURL(gist_url)
+  comment_body <- list(
+    files = list(gist_name = list(content = add_url_content))
+    )
+  names(comment_body$files) <- gist_name
+
+  # build the request
+  req_update <- req_gist %>%
+    httr2::req_url_path_append(id) %>%
+    httr2::req_body_json(comment_body) %>%
+    httr2::req_method("PATCH")
+
+  # send the add url request
+  gist_with_url <- httr2::req_perform(req_update)
+
+  # open file in browser
+  if(browse) utils::browseURL(gist_url)
 
   # try to put it out to clipboard
   maybe_clip(gist_url)
   # return id for piping to gist_to_carbon
-  return(the_gist$id)
+  return(id)
 
   # print the URL as well
   print(gist_url)
@@ -68,8 +103,12 @@ maybe_clip <- function(text) {
   text
 }
 
-# vendored from: https://github.com/MilesMcBain/gistfo/blob/master/R/gistfo.R#L104-L107
-is_file_ext <- function(path, ...) {
-  exts <- paste(tolower(c(...)), collapse = "|")
-  grepl(glue::glue("[.]({exts})$"), tolower(path))
+gist_error_body <- function(resp) {
+  body <- httr2::resp_body_json(resp)
+
+  message <- body$message
+  if (!is.null(body$documentation_url)) {
+    message <- c(message, paste0("See docs at <", body$documentation_url, ">"))
+  }
+  message
 }

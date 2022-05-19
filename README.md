@@ -8,8 +8,8 @@ The goal of `gistillery` is to make it outrageously simple to take local code, s
 
 Other packages that operate in the same space:
 
--   [`gistr`](https://github.com/ropensci/gistr) from ROpenSci - I use this under the hood, it provides a powerful and general interface to Gists  
--   [`gistfo`](https://github.com/MilesMcBain/gistfo) from Miles McBain/Garrick Aden-Buie, this is a usefully opinionated "Get It Somewhere The F\*\*\* Online" package. I also use parts of this under the hood.  
+-   [`gistr`](https://github.com/ropensci/gistr) from ROpenSci - it provides a powerful and general interface to Gists. I have taken a different approach internally with `httr2`, but inspired by this interface.  
+-   [`gistfo`](https://github.com/MilesMcBain/gistfo) from Miles McBain/Garrick Aden-Buie, this is a usefully opinionated "Get It Somewhere The F\*\*\* Online" package. I also adapted some concepts from this package..  
 -   [`carbonate`](https://github.com/yonicd/carbonate) from Jonathan Sidi. A robust approach to a similar problem. `carbonate` uses R6 classes and RSelenium. Rather than using `RSelenium`, `gistillery` uses `webshot2` to take a screenshot of the code with `chromote`.
 
 ## Installation

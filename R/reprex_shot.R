@@ -9,7 +9,6 @@
 #' @importFrom reprex reprex
 #' @import cli
 #' @importFrom webshot2 webshot
-#' @importFrom knitr imgur_upload
 #' @export
 reprex_shot <- function(filename = NULL, ..., open_file = TRUE,
                         imgur = FALSE) {
@@ -47,8 +46,34 @@ reprex_shot <- function(filename = NULL, ..., open_file = TRUE,
 
   # optionally upload to imgur
   if (imgur) {
-    imgur_out <- knitr::imgur_upload(filename)
+    imgur_out <- imgur_upload(filename)
 
     cli::cli_alert_success("Screenshot uploaded to {.url {as.character(imgur_out)}}")
   }
+}
+
+#' @importFrom utils packageVersion
+# vendored from knitr
+# https://github.com/yihui/knitr/blob/3237add034368a3018ff26fa9f4d0ca89a4afd78/R/utils-upload.R#L37-L51
+imgur_upload <- function(file) {
+  key <- "9f3460e67f308f6"
+  if (!is.character(key)) {
+    stop("The Imgur API Key must be a character string!")
+  }
+  resp <- httr::POST("https://api.imgur.com/3/image.xml", config = httr::add_headers(Authorization = paste(
+    "Client-ID",
+    key
+  )), body = list(image = httr::upload_file(file)))
+  httr::stop_for_status(resp, "upload to imgur")
+  res <- httr::content(resp, as = "raw")
+  res <- if (length(res)) {
+    xml2::as_list(xml2::read_xml(res))
+  }
+  if (utils::packageVersion("xml2") >= "1.2.0") {
+    res <- res[[1L]]
+  }
+  if (is.null(res$link[[1]])) {
+    stop("failed to upload ", file)
+  }
+  structure(res$link[[1]], XML = res)
 }

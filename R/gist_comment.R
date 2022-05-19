@@ -6,21 +6,9 @@
 #' @return A string of the comment text
 #' @export
 #' @import httr2
-#' @importFrom gistr gist_auth
 #' @importFrom httr2 %>%
-#' @importFrom jsonlite toJSON
 #'
-gist_comment <- function(gist_id="73b34a7d484360036fee122c5a745f44", comment="pbs.twimg.com/media/FBGfjADUYAUxiPz?format=png"){
-
-  gist_error_body <- function(resp) {
-    body <- httr2::resp_body_json(resp)
-
-    message <- body$message
-    if (!is.null(body$documentation_url)) {
-      message <- c(message, paste0("See docs at <", body$documentation_url, ">"))
-    }
-    message
-  }
+gist_comment <- function(gist_id="73b34a7d484360036fee122c5a745f44", comment="![](https://pbs.twimg.com/media/FBGfjADUYAUxiPz?format=png)"){
 
   # consider moving to token-based auth via httr2
   # token <- ifelse(!is.null(token), token, Sys.getenv("GITHUB_PAT"))
@@ -31,7 +19,7 @@ gist_comment <- function(gist_id="73b34a7d484360036fee122c5a745f44", comment="pb
     req_url_path_append(gist_id) %>%
     req_url_path_append("comments") %>%
     req_headers(
-      Authorization = git_auth(), #$Authorization,
+      Authorization = git_auth(),
       "User-Agent" = "gistr",
       Accept = "application/vnd.github.v3+json"
     ) %>%

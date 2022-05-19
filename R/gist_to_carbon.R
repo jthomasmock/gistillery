@@ -11,7 +11,6 @@
 #' @param drop_shadow Logical indicating whether to include drop shadow for the screenshot.
 #' @param width_auto_adjust Logical indicating whether to auto adjust the width for better code-printing
 #' @import glue chromote
-#' @importFrom knitr imgur_upload
 #' @return Saves an image to disk and optionally returns the uploaded imgur URL
 #' @export
 
@@ -80,9 +79,9 @@ gist_to_carbon <- function(
     return(file)
   }
 
-  imgur_url <- as.character(knitr::imgur_upload(file))
+  imgur_url <- as.character(imgur_upload(file))
 
-  gist_append_img(imgur_url = imgur_url, gist_id= gist_id)
+  gist_append_img(imgur_url = imgur_url, gist_id = gist_id)
   cli::cli_alert_info("imgur url added to {.field {gist_id}}")
   cli::cli_alert_success("imgur link at {.url {imgur_url}}")
 }
@@ -92,29 +91,50 @@ gist_to_carbon <- function(
 #'
 #' @param imgur_url Existing URL from imgur, typically as created with gistillery::gist_to_carbon()
 #' @param gist_id Unique ID for an existing Github Gist - this is where the comment will be added.
-#' @import gistr glue
+#' @import glue
 #' @return Adds a commented line to bottom of existing Gist code
 #' @export
 gist_append_img <- function(imgur_url, gist_id = NULL) {
-  base_gist <- gistr::gist(gist_id)
-  gist_url <- base_gist$html_url
 
-  # temp add file
-  gist_id_file <- file.path(tempdir(), base_gist$files[[1]]$filename)
+  req_gist <- "https://api.github.com" %>%
+    httr2::request() %>%
+    httr2::req_url_path_append("gists") %>%
+    httr2::req_url_path_append(gist_id) %>%
+    httr2::req_headers(
+      Authorization = git_auth(),
+      "User-Agent" = "gistr",
+      Accept = "application/vnd.github.v3+json"
+    )
+
+  gist_resp <- httr2::req_perform(req_gist)
+
+  gist_content_raw <- resp_body_json(gist_resp)
+
+  gist_name <- names(gist_content_raw[["files"]])[1]
+
+  gist_extract <- gist_content_raw[["files"]][[gist_name]]
+
+  # get the raw code
+  gist_content <- gist_extract[["content"]]
 
   # populate the imgur link into added text
-  comment <- glue::glue("\n\n# Code image at: ![]({imgur_url})\n\n")
+  content_plus_comment <- glue::glue("{gist_content}\n# Code image at: ![]({imgur_url})\n\n")
 
-  # Overwrite file with content, new comment
-  cat(base_gist$files[[1]]$content, comment, file = gist_id_file)
-  # update local gist
-  updated_gist <- gistr::update_files(base_gist, gist_id_file)
-  # push to GitHub gist
-  gistr::update(updated_gist)
+  # rename the element with gist_name
+  comment_body <- list(
+    files = list(gist_name = list(content = content_plus_comment))
+  )
+  names(comment_body$files) <- gist_name
 
-  # cleanup/remove file
-  rm(gist_id_file)
-}
+  # build the request
+  req_update <- req_gist %>%
+    httr2::req_body_json(comment_body) %>%
+    httr2::req_method("PATCH")
+
+  # send the add url request
+  gist_with_url <- httr2::req_perform(req_update)
+
+  }
 
 #' Carbon themes
 #'
