@@ -87,8 +87,12 @@
 <a href="https://github.com/MilesMcBain/gistfo" class="external-link"><code>gistfo</code></a> from Miles McBain/Garrick Aden-Buie, this is a usefully opinionated “Get It Somewhere The F*** Online” package. I also adapted some concepts from this package..<br>
 </li>
 <li>
-<a href="https://github.com/yonicd/carbonate" class="external-link"><code>carbonate</code></a> from Jonathan Sidi. A robust approach to a similar problem. <code>carbonate</code> uses R6 classes and RSelenium. Rather than using <code>RSelenium</code>, <code>gistillery</code> uses <code>webshot2</code> to take a screenshot of the code with <code>chromote</code>.</li>
+<a href="https://github.com/yonicd/carbonate" class="external-link"><code>carbonate</code></a> from Jonathan Sidi. A robust approach to a similar problem. <code>carbonate</code> uses R6 classes (object-oriented programming) and RSelenium. Rather than using <code>RSelenium</code>, <code>gistillery</code> uses <code>webshot2</code> to take a screenshot of the code with <code>chromote</code>.</li>
+<li>
+<a href="https://github.com/yonicd/carbonace" class="external-link"><code>carbonace</code></a> from Jonathan Sidi. “A shiny app that converts the ace editor as high resolution images to share”. This package provides a nice, local-only, offline ability to screenshot.</li>
 </ul>
+<p>The difference in <a href="https://github.com/jthomasmock/gistillery" class="external-link">gistillery</a> from the above packages is the intention to have both a Github Gist and a screenshot. <code>gistr</code> allows for uploading Gists but no screenshots, <code>gistfo</code> takes an entire file/text selection and uploads to gist and then to Carbon, but doesn’t take programmatic screenshots. <code>carbonate</code>/<code>carbonace</code> take screenshots via Carbon/Ace but don’t have a Gist component.</p>
+<p>When sharing screenshots of code I believe it is vitally important to include a copy-pasteable/screen reader friendly option, thus <a href="https://github.com/jthomasmock/gistillery" class="external-link">gistillery</a> requires a Gist to be created or an existing Gist to be used for taking screenshots. You can then include a link to the Gist wherever the screenshot goes, whether Twitter, LinkedIn, a personal website, or some other location. The other packages are still awesome - this is just a slightly different approach.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
