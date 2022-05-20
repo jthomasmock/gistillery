@@ -10,7 +10,12 @@ Other packages that operate in the same space:
 
 -   [`gistr`](https://github.com/ropensci/gistr) from ROpenSci - it provides a powerful and general interface to Gists. I have taken a different approach internally with `httr2`, but inspired by this interface.  
 -   [`gistfo`](https://github.com/MilesMcBain/gistfo) from Miles McBain/Garrick Aden-Buie, this is a usefully opinionated "Get It Somewhere The F\*\*\* Online" package. I also adapted some concepts from this package..  
--   [`carbonate`](https://github.com/yonicd/carbonate) from Jonathan Sidi. A robust approach to a similar problem. `carbonate` uses R6 classes and RSelenium. Rather than using `RSelenium`, `gistillery` uses `webshot2` to take a screenshot of the code with `chromote`.
+-   [`carbonate`](https://github.com/yonicd/carbonate) from Jonathan Sidi. A robust approach to a similar problem. `carbonate` uses R6 classes (object-oriented programming) and RSelenium. Rather than using `RSelenium`, `gistillery` uses `webshot2` to take a screenshot of the code with `chromote`.
+-   [`carbonace`](https://github.com/yonicd/carbonace) from Jonathan Sidi. "A shiny app that converts the ace editor as high resolution images to share". This package provides a nice, local-only, offline ability to screenshot.
+
+The difference in `{gistillery}` from the above packages is the intention to have both a Github Gist and a screenshot. `gistr` allows for uploading Gists but no screenshots, `gistfo` takes an entire file/text selection and uploads to gist and then to Carbon, but doesn't take programmatic screenshots. `carbonate`/`carbonace` take screenshots via Carbon/Ace but don't have a Gist component.
+
+When sharing screenshots of code I believe it is vitally important to include a copy-pasteable/screen reader friendly option, thus `{gistillery}` requires a Gist to be created or an existing Gist to be used for taking screenshots. You can then include a link to the Gist wherever the screenshot goes, whether Twitter, LinkedIn, a personal website, or some other location. The other packages are still awesome - this is just a slightly different approach.
 
 ## Installation
 
