@@ -13,7 +13,8 @@
 #' for help
 #' - Interactively login into your GitHub account and authorise with OAuth.
 #'
-#' Using `GITHUB_PAT` is recommended.
+#' Using `GITHUB_PAT` is recommended but it should also work with `gitcreds::gitcreds_get()`
+#' if you're storing your credentials there.
 #'
 #' @export
 #' @param app An [httr::oauth_app()] for GitHub. The default uses an
@@ -54,22 +55,20 @@ git_auth <- function(app = gistr_app, reauth = FALSE) {
       token <- httr::oauth2.0_token(endpt, app, scope = "gist", cache = !reauth)
       auth_config <- httr::config(token = token)
     }
-
   }
 
   cache$auth_config <- auth_config
 
-  if(grepl("token", token, ignore.case = TRUE)) {
+  if (grepl("token", token, ignore.case = TRUE)) {
     return(token)
   } else {
     auth_header(auth_config$auth_token$credentials$access_token)
   }
 
-  if(nchar(token) <= 7) {
-      cli::cli_alert_danger("Github Auth Token appears to be missing.")
-      cli::cli_alert_warning("Please set {.field GITHUB_PAT} in your {.file .Renviron} or use the {.pkg gitcreds} package.")
+  if (nchar(token) <= 7) {
+    cli::cli_alert_danger("Github Auth Token appears to be missing.")
+    cli::cli_alert_warning("Please set {.field GITHUB_PAT} in your {.file .Renviron} or use the {.pkg gitcreds} package.")
   }
-
 }
 
 auth_header <- function(x) paste0("token ", x)

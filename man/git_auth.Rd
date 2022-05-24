@@ -30,5 +30,6 @@ https://help.github.com/articles/creating-an-access-token-for-command-line-use
 for help
 - Interactively login into your GitHub account and authorise with OAuth.
 
-Using `GITHUB_PAT` is recommended.
+Using `GITHUB_PAT` is recommended but it should also work with `gitcreds::gitcreds_get()`
+if you're storing your credentials there.
 }
