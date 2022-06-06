@@ -5,14 +5,15 @@
 #' @param open_file A logical, should the file be opened once saved
 #' @param imgur A logical, should the image be uploaded to imgur also
 #' @param ... additional arguments passed to reprex::reprex()
+#' @param venue A character string indicating the venue (r, gh, rtf) - see reprex::reprex() for full options
 #' @return a screenshot of the reprex on disk
 #' @importFrom reprex reprex
 #' @import cli
 #' @importFrom webshot2 webshot
 #' @export
 reprex_shot <- function(filename = NULL, ..., open_file = TRUE,
-                        imgur = FALSE) {
-  reprex::reprex(...)
+                        imgur = FALSE, venue = "r") {
+  reprex::reprex(..., venue = venue)
 
   # get tempfiles
   temp_fs <- dir(tempdir(), full.names = TRUE)

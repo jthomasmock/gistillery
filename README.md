@@ -58,7 +58,7 @@ gist_upload(content = readLines("mylocal-file.R"), gist_name = "local-file.R")
 # Or we can take some code from the clipboard
 gist_upload(content = clipr::read_clip(), gist_name = "copy-pasted-code.R")
 # or even a reprex
-gist_upload(reprex::reprex(), gist_name = "test-prex.R")
+gist_upload(reprex::reprex_r(), gist_name = "test-prex.R")
 
 # or save the reprex to an object first
 test_reprex <- reprex::reprex()
@@ -142,7 +142,7 @@ reprex_shot(filename = "my-local-reprex.png")
 If you wanted, you could used a pipe based workflow to get a seamless `reprex` -\> upload to Gist -\> screenshot from Carbon.
 
 ``` r
-reprex::reprex() |> 
+reprex::reprex_r() |> 
   gistillery::gist_upload(gist_name = "new-test-reprex.R") |> 
   gistillery::gist_to_carbon(file = "new-test-reprex.png") 
 ```
